@@ -1,0 +1,5 @@
+# The weekly routine runs on Linux; setup happened on Windows. Pin LF so the
+# rebuild does not produce whole-file diffs every week.
+* text=auto eol=lf
+*.png binary
+*.jpg binary

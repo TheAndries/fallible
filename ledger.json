@@ -1,0 +1,99 @@
+{
+  "schema_version": 1,
+  "site": "fallible.tech",
+  "updated": "2026-08-22",
+  "notes": "Single source of truth for predictions. The site renders from this file. Predictions are append-only: once published, a prediction's statement, confidence, resolution_date and resolution_source are never edited. Only status, outcome, resolved_on and resolution_note may be filled in later.",
+  "predictions": [
+    {
+      "id": "0001",
+      "created": "2026-08-22",
+      "statement": "The CoinGecko daily closing price of Bitcoin in USD on 2027-01-01 will be higher than its daily closing price on 2026-09-01.",
+      "confidence": 52,
+      "resolution_date": "2027-01-02",
+      "resolution_source": "CoinGecko historical daily close (UTC) for BTC/USD, coingecko.com/en/coins/bitcoin/historical_data",
+      "tags": ["markets"],
+      "status": "open",
+      "outcome": null,
+      "resolved_on": null,
+      "resolution_note": null
+    },
+    {
+      "id": "0002",
+      "created": "2026-08-22",
+      "statement": "Python 3.15.0 final (not a release candidate) will be released on or before 2026-10-31.",
+      "confidence": 82,
+      "resolution_date": "2026-11-01",
+      "resolution_source": "python.org/downloads release listing, cross-checked against the release schedule PEP for Python 3.15",
+      "tags": ["software"],
+      "status": "open",
+      "outcome": null,
+      "resolved_on": null,
+      "resolution_note": null
+    },
+    {
+      "id": "0003",
+      "created": "2026-08-22",
+      "statement": "Between 2026-09-01 and 2027-03-31 inclusive, SpaceX will conduct at least one Starship flight that reaches orbital velocity.",
+      "confidence": 85,
+      "resolution_date": "2027-04-01",
+      "resolution_source": "SpaceX official launch updates at spacex.com/launches, cross-checked against Wikipedia 'List of Starship launches'",
+      "tags": ["space"],
+      "status": "open",
+      "outcome": null,
+      "resolved_on": null,
+      "resolution_note": null
+    },
+    {
+      "id": "0004",
+      "created": "2026-08-22",
+      "statement": "Between 2026-09-01 and 2027-06-30 inclusive, at least one spacecraft from any nation or company will make a soft landing on the lunar surface and transmit data from the surface after landing.",
+      "confidence": 80,
+      "resolution_date": "2027-07-01",
+      "resolution_source": "Official announcements from the operating space agency or company, cross-checked against Wikipedia 'List of missions to the Moon'",
+      "tags": ["space"],
+      "status": "open",
+      "outcome": null,
+      "resolved_on": null,
+      "resolution_note": null
+    },
+    {
+      "id": "0005",
+      "created": "2026-08-22",
+      "statement": "The US CPI-U all-items 12-month percent change, not seasonally adjusted, for the reference month of November 2026 will be between 1.5% and 4.0% inclusive.",
+      "confidence": 88,
+      "resolution_date": "2026-12-31",
+      "resolution_source": "US Bureau of Labor Statistics CPI news release for November 2026, series CUUR0000SA0",
+      "tags": ["economics"],
+      "status": "open",
+      "outcome": null,
+      "resolved_on": null,
+      "resolution_note": null
+    },
+    {
+      "id": "0006",
+      "created": "2026-08-22",
+      "statement": "NASA GISS will rank 2026 among the five warmest years in its surface temperature record, in the annual analysis it publishes in January or February 2027.",
+      "confidence": 93,
+      "resolution_date": "2027-02-15",
+      "resolution_source": "NASA Goddard Institute for Space Studies GISTEMP annual temperature analysis, data.giss.nasa.gov/gistemp",
+      "tags": ["climate"],
+      "status": "open",
+      "outcome": null,
+      "resolved_on": null,
+      "resolution_note": null
+    },
+    {
+      "id": "0007",
+      "created": "2026-08-22",
+      "statement": "Between 2026-09-01 and 2027-02-28 inclusive, at least one of OpenAI, Google DeepMind, or Anthropic will make generally available a newly named top-line frontier model — a new model name in its flagship line, not a point revision, a size variant, or a rename of an existing model.",
+      "confidence": 96,
+      "resolution_date": "2027-03-01",
+      "resolution_source": "Official announcement on the vendor's own blog or model documentation (openai.com, deepmind.google, anthropic.com), plus public availability in that vendor's API or consumer product",
+      "tags": ["ai"],
+      "status": "open",
+      "outcome": null,
+      "resolved_on": null,
+      "resolution_note": null
+    }
+  ]
+}

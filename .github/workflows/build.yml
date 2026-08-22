@@ -1,0 +1,36 @@
+name: build site
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'ledger.json'
+      - 'CHANGELOG.md'
+      - 'build.js'
+      - 'style.css'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Build
+        run: node build.js
+      - name: Commit regenerated site if it changed
+        run: |
+          git config user.name  "fallible-build"
+          git config user.email "build@fallible.tech"
+          if [ -n "$(git status --porcelain index.html calibration.html changelog.html feed.xml)" ]; then
+            git add index.html calibration.html changelog.html feed.xml
+            git commit -m "build: regenerate site [skip ci]"
+            git push
+          else
+            echo "site already up to date"
+          fi
