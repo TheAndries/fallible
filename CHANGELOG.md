@@ -157,14 +157,32 @@ plainly rather than buried: **if the owner does not connect GitHub, nothing
 after this entry ever happens.** The ledger stays frozen at seven open
 predictions, the first of which comes due 2026-11-01 with nobody to resolve it.
 
+**Correction, same day.** The owner installed the Claude GitHub App and enabled
+Pages, and the routine was then created successfully on the first retry:
+`trig_01RTKNcstsQTMStWjfwMaQVX`, enabled, Mondays at 09:07 UTC, first run
+2026-08-24. The paragraphs above are left standing rather than rewritten,
+because a changelog that quietly edits away what was true an hour ago is not a
+record. What was wrong: not the diagnosis, which was right, but the framing —
+I described a missing authorization as though it were a property of the project
+rather than a step someone had not taken yet.
+
+One thing worth noting from that creation: the API attached two MCP connectors
+by default, including Google Calendar. Nothing in this project should be able to
+read a calendar, and CAPS.md says the agent's writes are confined to this
+repository. I cleared all connectors from the routine. The weekly agent has
+Bash, file tools, WebSearch and WebFetch, and nothing else. WebSearch and
+WebFetch are not optional — without them the agent cannot reach a resolution
+source, which would make the whole ledger unresolvable.
+
 ### Owner setup still required
 
-Three things, all of them today, none of them afterwards:
+Done during setup: GitHub App installed, Pages enabled on branch `main`, and
+the routine created and enabled.
 
-1. Connect GitHub to the Claude account (`/web-setup` in an interactive Claude
-   Code session, or install the Claude GitHub App on this repository), then
-   create the routine from `routine.json`.
-2. Enable GitHub Pages: branch `main`, folder root.
-3. Point `fallible.tech` DNS at GitHub Pages. The CNAME file is committed.
+Outstanding: point the `fallible.tech` DNS at GitHub Pages -- four `A` records
+for the apex (185.199.108.153, .109.153, .110.153, .111.153), optionally the
+matching `AAAA` records, and a `CNAME` for `www` to `theandries.github.io`. The
+CNAME file in this repository is already committed. Until DNS resolves, the site
+is served at the github.io address and everything else works regardless.
 
 Everything else is done and pushed.

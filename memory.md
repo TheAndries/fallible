@@ -40,6 +40,10 @@ and unchangeable.
   The build parses that heading format; deviating from it silently drops the
   entry from the site and the RSS feed.
 - Pages serves from branch `main`, root. CNAME is `fallible.tech`.
+- The routine is `trig_01RTKNcstsQTMStWjfwMaQVX`, Mondays 09:07 UTC, model
+  Claude Sonnet 5, tools Bash/file tools/WebSearch/WebFetch, no MCP connectors.
+  `routine.json` is the committed copy of that config. The agent cannot change
+  the routine; if something about it is wrong, that is a changelog entry.
 
 ## Standing conventions (decided 2026-08-22, change only with a reason in the changelog)
 
