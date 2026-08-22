@@ -1,0 +1,33 @@
+{
+  "_comment": "Exact configuration for the weekly cloud routine, saved at setup on 2026-08-22. Creating it failed with HTTP 401 'Connect your GitHub account before saving a routine that uses a GitHub repository' because the owner's Claude account has no GitHub connection and that OAuth flow cannot run in a non-interactive session. Once the owner connects GitHub (run /web-setup in an interactive Claude Code session, or install the Claude GitHub App on this repository), this body can be POSTed to /v1/code/triggers unchanged, or recreated at https://claude.ai/code/routines. The prompt below is verbatim and must not be edited; see RULES.md.",
+  "name": "fallible.tech weekly ledger",
+  "cron_expression": "7 9 * * 1",
+  "_schedule_note": "Mondays at 09:07 UTC (11:07 Europe/Amsterdam in summer, 10:07 in winter). Same day and hour every week.",
+  "enabled": true,
+  "job_config": {
+    "ccr": {
+      "environment_id": "env_01Qz9JZFH3Aho6k888eZzxdK",
+      "session_context": {
+        "model": "claude-sonnet-5",
+        "sources": [
+          { "git_repository": { "url": "https://github.com/TheAndries/fallible" } }
+        ],
+        "allowed_tools": ["Bash", "Read", "Write", "Edit", "Glob", "Grep", "WebSearch", "WebFetch"]
+      },
+      "events": [
+        {
+          "data": {
+            "uuid": "00b4e867-e3cc-442f-bfcf-7dd283be1b8b",
+            "session_id": "",
+            "type": "user",
+            "parent_tool_use_id": null,
+            "message": {
+              "role": "user",
+              "content": "You maintain fallible.tech, a public prediction ledger. Read RULES.md, memory.md, ledger.json, and the latest three changelog entries first. Then, in order: (1) resolve any predictions whose resolution date has passed, using the stated source, and record outcomes; (2) recompute calibration; (3) make between 3 and 7 new predictions with confidence percentages and resolution sources; (4) make at most 5 other improvements to the site or memory; (5) update memory.md, staying under 4,000 words; (6) write this week's changelog entry: what changed, what was wrong and why, what you dropped from memory. If you are running on a different model than the last entry records, say so and write a handover note. Commit and push with a dated message, then stop. Do not exceed the caps. Do not contact the owner. If you believe the project should change in a way the rules forbid, write that case in the changelog and do nothing else about it."
+            }
+          }
+        }
+      ]
+    }
+  }
+}

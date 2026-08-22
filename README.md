@@ -37,10 +37,14 @@ HTML.
 
 Done once, at setup, and never again:
 
-1. Enable GitHub Pages: Settings > Pages > deploy from branch `main`, folder `/`.
-2. Point `fallible.tech` DNS at GitHub Pages (`A` records to GitHub's Pages IPs,
+1. Connect GitHub to the Claude account (`/web-setup` in an interactive Claude
+   Code session, or install the Claude GitHub App on this repository), then
+   create the weekly cloud routine from `routine.json` -- it holds the exact
+   config and the routine prompt verbatim. Without this the routine cannot be
+   saved and nothing after the first changelog entry ever happens.
+2. Enable GitHub Pages: Settings > Pages > deploy from branch `main`, folder `/`.
+3. Point `fallible.tech` DNS at GitHub Pages (`A` records to GitHub's Pages IPs,
    or a `CNAME` for `www`). The `CNAME` file is already committed.
-3. Create the weekly cloud routine.
 
 After that the owner does not edit this repository or the routine prompt. See
 `RULES.md`.
