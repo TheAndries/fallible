@@ -42,17 +42,30 @@ function markdown(src) {
       const lvl = m[1].length;
       out.push('<h' + lvl + '>' + inline(m[2]) + '</h' + lvl + '>'); i++; continue;
     }
+    // A list item's text can wrap onto following lines (soft-wrapped source);
+    // fold those continuation lines back in rather than letting them spill
+    // out as orphaned paragraphs. A continuation line is any non-blank line
+    // that doesn't start a new block of its own.
+    const isNewBlock = (l) => /^\s*([-*]\s|\d+\.\s|#{3,6}\s|\|)/.test(l);
     if (/^\s*[-*]\s+/.test(line)) {
       const items = [];
       while (i < lines.length && /^\s*[-*]\s+/.test(lines[i])) {
-        items.push('<li>' + inline(lines[i].replace(/^\s*[-*]\s+/, '')) + '</li>'); i++;
+        let text = lines[i].replace(/^\s*[-*]\s+/, ''); i++;
+        while (i < lines.length && lines[i].trim() && !isNewBlock(lines[i])) {
+          text += ' ' + lines[i].trim(); i++;
+        }
+        items.push('<li>' + inline(text) + '</li>');
       }
       out.push('<ul>' + items.join('') + '</ul>'); continue;
     }
     if (/^\s*\d+\.\s+/.test(line)) {
       const items = [];
       while (i < lines.length && /^\s*\d+\.\s+/.test(lines[i])) {
-        items.push('<li>' + inline(lines[i].replace(/^\s*\d+\.\s+/, '')) + '</li>'); i++;
+        let text = lines[i].replace(/^\s*\d+\.\s+/, ''); i++;
+        while (i < lines.length && lines[i].trim() && !isNewBlock(lines[i])) {
+          text += ' ' + lines[i].trim(); i++;
+        }
+        items.push('<li>' + inline(text) + '</li>');
       }
       out.push('<ol>' + items.join('') + '</ol>'); continue;
     }
@@ -78,8 +91,17 @@ function markdown(src) {
 }
 
 /* ---------- page shell ---------- */
+// A plain emoji favicon, inlined as an SVG data URI so there is no binary
+// asset to keep track of. Target fits the theme: a ledger of aimed-at,
+// sometimes-missed forecasts.
+const FAVICON = 'data:image/svg+xml,' +
+  encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">' +
+    '<text y="0.9em" font-size="90">\u{1F3AF}</text></svg>');
+
 function page(active, heading, sub, body) {
-  const nav = [['index.html', 'ledger'], ['calibration.html', 'calibration'], ['changelog.html', 'changelog']]
+  const pages = [['index.html', 'ledger'], ['calibration.html', 'calibration'], ['changelog.html', 'changelog']];
+  const path = (pages.find(([, label]) => label === active) || pages[0])[0];
+  const nav = pages
     .map(([href, label]) => active === label
       ? '<a href="' + href + '" aria-current="page">' + label + '</a>'
       : '<a href="' + href + '">' + label + '</a>').join('');
@@ -90,6 +112,15 @@ function page(active, heading, sub, body) {
 '<meta name="viewport" content="width=device-width,initial-scale=1">\n' +
 '<title>' + esc(heading) + ' - ' + TITLE + '</title>\n' +
 '<meta name="description" content="' + esc(sub) + '">\n' +
+'<link rel="icon" href="' + FAVICON + '">\n' +
+'<meta property="og:site_name" content="' + esc(TITLE) + '">\n' +
+'<meta property="og:title" content="' + esc(heading) + ' - ' + esc(TITLE) + '">\n' +
+'<meta property="og:description" content="' + esc(sub) + '">\n' +
+'<meta property="og:type" content="website">\n' +
+'<meta property="og:url" content="' + SITE + '/' + esc(path) + '">\n' +
+'<meta name="twitter:card" content="summary">\n' +
+'<meta name="twitter:title" content="' + esc(heading) + ' - ' + esc(TITLE) + '">\n' +
+'<meta name="twitter:description" content="' + esc(sub) + '">\n' +
 '<link rel="stylesheet" href="style.css">\n' +
 '<link rel="alternate" type="application/rss+xml" title="' + TITLE + ' changelog" href="' + SITE + '/feed.xml">\n' +
 '</head>\n' +
@@ -350,6 +381,14 @@ entries.map((e) => '<item>\n' +
 '</item>').join('\n') + '\n' +
 '</channel>\n</rss>\n';
 write('feed.xml', rss);
+
+/* ---------- sitemap ---------- */
+const sitemap = '<?xml version="1.0" encoding="UTF-8"?>\n' +
+'<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
+['index.html', 'calibration.html', 'changelog.html'].map((p) =>
+  '<url><loc>' + SITE + '/' + p + '</loc></url>').join('\n') + '\n' +
+'</urlset>\n';
+write('sitemap.xml', sitemap);
 
 console.log('\n' + preds.length + ' predictions (' + open.length + ' open, ' + resolved.length +
   ' resolved, ' + voided.length + ' void), ' + entries.length + ' changelog entries.');
