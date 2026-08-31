@@ -112,6 +112,7 @@ function page(active, heading, sub, body) {
 '<meta name="viewport" content="width=device-width,initial-scale=1">\n' +
 '<title>' + esc(heading) + ' - ' + TITLE + '</title>\n' +
 '<meta name="description" content="' + esc(sub) + '">\n' +
+'<link rel="canonical" href="' + SITE + '/' + esc(path) + '">\n' +
 '<link rel="icon" href="' + FAVICON + '">\n' +
 '<meta property="og:site_name" content="' + esc(TITLE) + '">\n' +
 '<meta property="og:title" content="' + esc(heading) + ' - ' + esc(TITLE) + '">\n' +
@@ -156,6 +157,37 @@ const preds = ledger.predictions.slice();
 const resolved = preds.filter((p) => p.status === 'resolved' && typeof p.outcome === 'boolean');
 const open = preds.filter((p) => p.status === 'open');
 const voided = preds.filter((p) => p.status === 'void');
+
+/* ---------- ledger integrity check ----------
+ * Catches data-entry mistakes before they reach the committed site: a wrong
+ * ID, a confidence outside the standing convention, a resolution window that
+ * violates RULES.md rule 3. Fails loudly (non-zero exit) rather than
+ * silently publishing a bad ledger. Advisory only where the rule is a
+ * memory.md convention, not a RULES.md rule (noted per check). */
+(function validateLedger() {
+  const errors = [];
+  const monthsBetween = (a, b) => (new Date(b) - new Date(a)) / (1000 * 60 * 60 * 24 * 30.44);
+  preds.forEach((p, i) => {
+    const wantId = String(i + 1).padStart(4, '0');
+    if (p.id !== wantId) errors.push('id ' + p.id + ': expected sequential zero-padded id ' + wantId);
+    if (p.status === 'open' || p.status === 'resolved') {
+      if (!(p.confidence >= 50 && p.confidence <= 99)) {
+        errors.push('id ' + p.id + ': confidence ' + p.confidence + ' outside 50-99 (memory.md convention)');
+      }
+    }
+    if (p.resolution_date <= p.created) errors.push('id ' + p.id + ': resolution_date not after created');
+    if (monthsBetween(p.created, p.resolution_date) > 12.2) {
+      errors.push('id ' + p.id + ': resolution_date more than 12 months after created (RULES.md rule 3)');
+    }
+  });
+  const ids = preds.map((p) => p.id);
+  const dupes = ids.filter((id, i) => ids.indexOf(id) !== i);
+  if (dupes.length) errors.push('duplicate id(s): ' + [...new Set(dupes)].join(', '));
+  if (errors.length) {
+    console.error('Ledger integrity check failed:\n  ' + errors.join('\n  '));
+    process.exit(1);
+  }
+})();
 
 const brier = (p) => Math.pow(p.confidence / 100 - (p.outcome ? 1 : 0), 2);
 const mean = (a) => (a.length ? a.reduce((x, y) => x + y, 0) / a.length : null);
@@ -383,12 +415,23 @@ entries.map((e) => '<item>\n' +
 write('feed.xml', rss);
 
 /* ---------- sitemap ---------- */
+const lastmods = {
+  'index.html': ledger.updated,
+  'calibration.html': ledger.updated,
+  'changelog.html': entries.length ? entries[0].date : ledger.updated,
+};
 const sitemap = '<?xml version="1.0" encoding="UTF-8"?>\n' +
 '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
 ['index.html', 'calibration.html', 'changelog.html'].map((p) =>
-  '<url><loc>' + SITE + '/' + p + '</loc></url>').join('\n') + '\n' +
+  '<url><loc>' + SITE + '/' + p + '</loc><lastmod>' + lastmods[p] + '</lastmod></url>').join('\n') + '\n' +
 '</urlset>\n';
 write('sitemap.xml', sitemap);
+
+/* ---------- memory.md word count (RULES.md rule 13: 4,000 word cap) ---------- */
+if (fs.existsSync(path.join(ROOT, 'memory.md'))) {
+  const words = read('memory.md').trim().split(/\s+/).filter(Boolean).length;
+  console.log('memory.md: ' + words + ' words' + (words > 4000 ? '  *** OVER THE 4,000 WORD CAP ***' : ' (cap 4,000)'));
+}
 
 console.log('\n' + preds.length + ' predictions (' + open.length + ' open, ' + resolved.length +
   ' resolved, ' + voided.length + ' void), ' + entries.length + ' changelog entries.');
