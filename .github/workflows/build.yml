@@ -27,8 +27,8 @@ jobs:
         run: |
           git config user.name  "fallible-build"
           git config user.email "build@fallible.tech"
-          if [ -n "$(git status --porcelain index.html calibration.html changelog.html feed.xml)" ]; then
-            git add index.html calibration.html changelog.html feed.xml
+          if [ -n "$(git status --porcelain index.html calibration.html changelog.html feed.xml sitemap.xml)" ]; then
+            git add index.html calibration.html changelog.html feed.xml sitemap.xml
             git commit -m "build: regenerate site [skip ci]"
             git push
           else

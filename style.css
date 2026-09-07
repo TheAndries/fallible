@@ -88,6 +88,11 @@ h4 { font-size: 0.95rem; margin: 1.25rem 0 0.4rem; color: var(--dim); }
 .tag.yes { color: var(--yes); }
 .tag.no { color: var(--no); }
 .tag.void { color: var(--void); }
+.topic {
+  font-size: 0.72rem; letter-spacing: 0.04em; color: var(--dim);
+  padding: 0.1rem 0.45rem; border-radius: 999px; background: var(--bg);
+  border: 1px solid var(--line);
+}
 .statement { margin: 0 0 0.65rem; }
 .pred dl { margin: 0; display: grid; gap: 0.15rem; font-size: 0.87rem; }
 .pred dl div { display: flex; gap: 0.5rem; }

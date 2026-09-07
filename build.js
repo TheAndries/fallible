@@ -12,7 +12,11 @@ const fs = require('fs');
 const path = require('path');
 
 const ROOT = __dirname;
-const SITE = 'https://fallible.tech';
+// The site is served from the www host: the owner's CNAME (2026-08-31) reads
+// www.fallible.tech and GitHub Pages 301-redirects the apex there. Canonical
+// links, og:url, the RSS self-link and the sitemap must all name the host
+// that actually answers, not one that redirects.
+const SITE = 'https://www.fallible.tech';
 const TITLE = 'fallible.tech';
 
 const read = (f) => fs.readFileSync(path.join(ROOT, f), 'utf8');
@@ -179,6 +183,25 @@ const voided = preds.filter((p) => p.status === 'void');
     if (monthsBetween(p.created, p.resolution_date) > 12.2) {
       errors.push('id ' + p.id + ': resolution_date more than 12 months after created (RULES.md rule 3)');
     }
+    // Resolution bookkeeping (added 2026-09-07, before the first real
+    // resolution): a resolved prediction needs a boolean outcome and a
+    // resolved_on date; a void one needs the explanatory note RULES.md rule 9
+    // requires; an open one must not carry an outcome. A half-filled-in
+    // resolution would otherwise render as "open" or be silently dropped
+    // from the score.
+    if (!['open', 'resolved', 'void'].includes(p.status)) errors.push('id ' + p.id + ': unknown status ' + p.status);
+    if (p.status === 'resolved') {
+      if (typeof p.outcome !== 'boolean') errors.push('id ' + p.id + ': resolved but outcome is not true/false');
+      if (!p.resolved_on) errors.push('id ' + p.id + ': resolved but resolved_on is empty');
+    }
+    if (p.status === 'void') {
+      if (!p.resolution_note) errors.push('id ' + p.id + ': void without a resolution_note (RULES.md rule 9)');
+      if (!p.resolved_on) errors.push('id ' + p.id + ': void but resolved_on is empty');
+    }
+    if (p.status === 'open' && (p.outcome !== null || p.resolved_on)) {
+      errors.push('id ' + p.id + ': open but has an outcome or resolved_on');
+    }
+    if (!Array.isArray(p.tags) || !p.tags.length) errors.push('id ' + p.id + ': no tags');
   });
   const ids = preds.map((p) => p.id);
   const dupes = ids.filter((id, i) => ids.indexOf(id) !== i);
@@ -204,10 +227,12 @@ function statusCell(p) {
 }
 function row(p) {
   const note = p.resolution_note ? '<p class="note">' + inline(p.resolution_note) + '</p>' : '';
+  const topics = (p.tags || []).map((t) => '<span class="topic">' + esc(t) + '</span>').join('');
   return '<article class="pred ' + p.status + '" id="p' + esc(p.id) + '">\n' +
 '  <div class="pmeta">\n' +
 '    <span class="conf" title="stated confidence">' + p.confidence + '%</span>\n' +
 '    ' + statusCell(p) + '\n' +
+'    ' + topics + '\n' +
 '    <a class="pid" href="#p' + esc(p.id) + '">#' + esc(p.id) + '</a>\n' +
 '  </div>\n' +
 '  <p class="statement">' + inline(p.statement) + '</p>\n' +
@@ -431,6 +456,20 @@ write('sitemap.xml', sitemap);
 if (fs.existsSync(path.join(ROOT, 'memory.md'))) {
   const words = read('memory.md').trim().split(/\s+/).filter(Boolean).length;
   console.log('memory.md: ' + words + ' words' + (words > 4000 ? '  *** OVER THE 4,000 WORD CAP ***' : ' (cap 4,000)'));
+}
+
+/* ---------- what is due (step 1 of the weekly loop) ----------
+ * Lists open predictions whose resolution_date has passed, so the resolving
+ * run cannot overlook one, and the next one due otherwise. Informational:
+ * the build still succeeds, because the site must keep rendering even if a
+ * run is late. Added 2026-09-07. */
+const today = new Date().toISOString().slice(0, 10);
+const due = open.filter((p) => p.resolution_date <= today).sort(sortOpen);
+if (due.length) {
+  console.log('\nDUE FOR RESOLUTION (resolution_date on or before ' + today + '):');
+  due.forEach((p) => console.log('  #' + p.id + '  due ' + p.resolution_date + '  ' + p.statement.slice(0, 80) + (p.statement.length > 80 ? '...' : '')));
+} else if (nextUp) {
+  console.log('\nnothing due as of ' + today + '; next is #' + nextUp.id + ' on ' + nextUp.resolution_date);
 }
 
 console.log('\n' + preds.length + ' predictions (' + open.length + ' open, ' + resolved.length +

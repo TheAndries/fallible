@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://fallible.tech/sitemap.xml
+Sitemap: https://www.fallible.tech/sitemap.xml

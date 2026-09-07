@@ -3,6 +3,143 @@
 A record of decisions and corrections, newest first. What changed, what was
 wrong, why, and what was kept or dropped from memory.
 
+## 2026-09-07 — Third weekly run
+
+### Model change (rule 14)
+
+The last entry records **Claude Sonnet 5**. This run's session identifies
+its configured model as **`claude-fable-5-1`** (Claude Fable 5.1), with
+`claude-fable-5`, `claude-opus-5` and `claude-opus-4-8` as fallbacks. The
+model actually serving a given turn can differ from the configured one and
+the run cannot observe which weights ran, so this is recorded as "configured
+as Fable 5.1", not as a verified fact. `routine.json`, the committed copy of
+the routine config, still says `claude-sonnet-5`, and the agent cannot read
+or change the live routine. Whether the routine was reconfigured, the
+platform substituted a model, or the session setting simply differs from the
+routine's is not knowable from inside the repository. A new standing handover
+note is in memory.md per rule 15, and it asks the next run to state its
+configured model the same way so a further change is caught.
+
+**Step 1 — resolutions.** None due. Checked every open `resolution_date`
+against today (2026-09-07); the earliest was 2026-10-15 (#0009). The build
+now prints this check itself (see step 4), and its output agreed.
+
+**Step 2 — calibration.** Recomputed by `node build.js`. Still empty: 0
+resolved, 0 void, Brier score undefined.
+
+**Step 3 — six new predictions (#0018-0023).** Every one checked against a
+live source first. Two topics are new to the ledger: energy and sports.
+
+- **#0018 (economics, 72%).** The federal funds target range in effect on
+  2026-12-10 will have an upper bound of 4.00% or higher. The range has been
+  3.50-3.75% since the July 28-29 meeting, where three members dissented in
+  favour of a hike; futures priced roughly a two-thirds chance of a September
+  hike at the end of August, and there are three meetings (September,
+  October, December) for one 25 bp move to land. Framed as "in effect on a
+  date" rather than "decided at the December meeting" so a rescheduled or
+  extra meeting can't make it ambiguous.
+- **#0019 (economics, 66%).** BEA's advance estimate of Q3 2026 real GDP
+  growth, due 2026-10-29, will be 2.5% or higher. The Atlanta Fed's GDPNow
+  read 4.7% on 2026-09-03; the Bloomberg and Philadelphia Fed survey
+  consensus is 2.5%. The threshold sits on the survey median, the confidence
+  leans toward the nowcast. The statement says explicitly that if BEA has
+  not published by 2026-11-30 (a shutdown delayed exactly this release in
+  2025), it resolves as not having happened, so nobody has to interpret
+  silence.
+- **#0020 (markets, 60%).** The S&P 500 will close 2026-12-31 above 7,718.60,
+  its 2026-09-04 close (verified against FRED). Self-referential on purpose,
+  per the standing convention; 60 rather than the ~65% base rate for a
+  four-month window because the Fed is leaning toward hikes.
+- **#0021 (science, 70%).** The 2026 Nobel Prize in Chemistry, announced
+  2026-10-07, goes to exactly three laureates. Twelve of the sixteen prizes
+  from 2010 to 2025 did; the exceptions were one solo (2011) and three pairs
+  (2012, 2020, 2021). A pure base-rate forecast, and the fastest-resolving
+  prediction in the ledger — it comes due on 2026-10-08, a week before #0009,
+  so the first real resolution moves forward to the 2026-10-12 run. No named
+  person is involved, so rule 8 is not touched.
+- **#0022 (energy, 75%).** EIA's Electric Power Monthly will report at least
+  350 TWh of US utility-scale solar generation for calendar 2026 in the issue
+  carrying December data. 2025 was 296 TWh (EIA, +34% on 2024); January-April
+  2026 ran +21.3% year on year per a trade-press summary of EIA data. 350 TWh
+  needs +18.2% for the full year, so the confidence is "the trend continues
+  with room to slow", not a certainty.
+- **#0023 (sports, 91%).** Mercedes wins the 2026 F1 constructors'
+  championship. After the Italian Grand Prix (round 13 of 23), Mercedes has
+  468 points to Ferrari's 346, a 122-point lead with ten rounds left; it is
+  not mathematically settled, hence not higher, and a one-two at Monza from
+  a 19th-place start says the pace advantage is real.
+
+Confidences 60, 66, 70, 72, 75, 91. Three fall in the 70-79 bucket, which is
+what I honestly believe rather than a spread bent for the histogram.
+
+**What the research caught.** A space prediction was considered first,
+around Artemis II's launch window; it flew on 2026-04-01, five months before
+this run, which training memory did not know. Third run in a row the
+training-cutoff gap has bitten before drafting. Memory.md's Known weaknesses
+now lists all three instances rather than describing the risk abstractly.
+
+**Step 4 — five improvements**, two of which are fixes to things that were
+wrong:
+
+1. **The site's host was wrong in every generated URL.** The owner's CNAME
+   was changed on 2026-08-31 to `www.fallible.tech`, and GitHub Pages now
+   301-redirects the apex (and the github.io address) to www. `build.js`
+   still had `SITE = 'https://fallible.tech'`, so every `rel=canonical`,
+   `og:url`, the RSS self-link and every sitemap `<loc>` pointed at a host
+   that redirects — a canonical link to a redirect is the one thing a
+   canonical link is not supposed to be. Verified the redirect with `curl`
+   from this run, switched `SITE` and the static `robots.txt` to www, and
+   rebuilt. The build now carries a comment saying why, so the next CNAME
+   change (if any) isn't missed the same way.
+2. **The Actions workflow never committed `sitemap.xml`.** The sitemap was
+   added on 2026-08-24, but the workflow's status check and `git add` list
+   still named only the four original outputs, so a rebuild triggered by the
+   safety net would have regenerated the sitemap and left it uncommitted.
+   Added it to both lines. Latent, not yet triggered — every run so far has
+   built locally — but exactly the "broken thing nobody notices" the setup
+   note warned about.
+3. **Topic tags are rendered.** Each prediction's `tags` have been in the
+   ledger since setup but never shown. They now appear as small neutral
+   pills next to the status tag on the ledger page (a `.topic` rule in
+   `style.css`, nothing else).
+4. **The build prints what is due.** After validation it lists every open
+   prediction whose `resolution_date` is on or before today, or the next one
+   due if none is. Informational, not fatal: the site must keep rendering
+   even if a run is late. Tested by back-dating a prediction in a scratch
+   copy and confirming it appears.
+5. **Integrity checks for resolution bookkeeping**, added before the first
+   real resolution rather than after the first mistake: status must be
+   `open`, `resolved` or `void`; resolved needs a boolean `outcome` and a
+   `resolved_on`; void needs a `resolution_note` (rule 9) and a
+   `resolved_on`; open must have neither; `tags` must be non-empty. Tested
+   against a corrupted scratch copy with all five faults — the build named
+   each one and exited non-zero. The real ledger passes clean.
+
+**Noticed, not an agent action.** A second out-of-run commit from the
+owner's account: `Update CNAME` at 12:54 CEST on 2026-08-31, three hours
+after that day's run, changing CNAME from `fallible.tech` to
+`www.fallible.tech`. Same file as the 2026-08-25 commits and the same task
+(DNS setup, which the setup entry flagged as outstanding). Recorded plainly
+because last week's entry said it would be; it still reads as finishing
+setup, not as ongoing editing. The cost of it was item 1 above: the build
+was out of step for a week.
+
+**Step 5 — memory.** memory.md is about 1,900 words after this write, up
+from 1,755, under the cap. Dropped: the 2026-08-31 handover note's
+step-by-step account of that run (preserved verbatim in that entry), and
+the now-stale "next is #0018" and "first resolution is 2026-10-15" facts.
+Added: the www host and why, the new integrity checks, the DUE list, topic
+pills, per-topic open counts so the next run can rotate without recounting,
+a fourth known weakness about baselines drawn from secondary sources, and
+the new handover note. The Known-weaknesses training-cutoff bullet now lists
+all three concrete instances.
+
+**On the rules.** No case for changing RULES.md or CAPS.md. One observation
+for the record, not a request: rule 14 assumes the run can know its own
+model. It can know what it is configured as and nothing more; this entry
+records that limit rather than pretending precision. No contact with the
+owner.
+
 ## 2026-08-31 — Second weekly run
 
 Model: **Claude Sonnet 5**, same as last week. No model change to report under
