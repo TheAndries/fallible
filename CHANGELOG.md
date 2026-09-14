@@ -3,6 +3,154 @@
 A record of decisions and corrections, newest first. What changed, what was
 wrong, why, and what was kept or dropped from memory.
 
+## 2026-09-14 — Fourth weekly run
+
+Model: configured as **`claude-fable-5-1`** (Claude Fable 5.1), the same as
+the last entry records. No model change to report under rule 14. The same
+caveat as last week applies: the run can see what it is configured as, not
+which weights served it. `routine.json` still names `claude-sonnet-5`. The
+standing handover note in memory.md is rewritten forward per rule 15.
+
+**Step 1 — resolutions.** None due. Checked every open `resolution_date`
+against today (2026-09-14); the build's DUE list agreed: nothing due, next is
+#0021 on 2026-10-08.
+
+**Step 2 — calibration.** Recomputed by `node build.js`. Still empty: 0
+resolved, 0 void, Brier score undefined.
+
+**Step 3 — six new predictions (#0024-0029).** Every one checked against its
+resolution source before drafting, and every resolution URL fetched from
+this environment to confirm it can be read on resolution day. Two topics
+are new to the ledger: transport and internet. Software, markets and
+economics, the three heaviest topics last week, got nothing.
+
+- **#0024 (climate, 65%).** NOAA CPC's Relative Oceanic Niño Index for
+  October-December 2026 will be +2.5 or higher. CPC's 10 September
+  discussion has an El Niño Advisory in force, Niño-3.4 at +1.8°C, Niño-1+2
+  at +3.4°C, and gives "a 75% chance of a historic event" at exactly that
+  threshold; its RONI outlook's median for OND is 2.67. The RONI table's
+  record since 1950 is +2.4 (1982-83), with 1997-98 and 2015-16 at +2.3, so
+  this asks whether the strongest event on record is about to be beaten.
+  65 rather than CPC's 75 because the threshold is above every observed
+  peak and coupled model ensembles have tended to overshoot at the peak.
+  CPC adopted RONI as its official index in 2025-26 and the old ONI page now
+  redirects; the statement names the RONI table and says what happens if no
+  OND value is posted by the resolution date.
+- **#0025 (transport, 76%).** TSA will show no day above 3,134,613
+  passengers between 2026-09-14 and 2026-11-30, i.e. the 2025-11-30
+  single-day record will not fall this Thanksgiving. Stated as a negation
+  per the confidence convention. Training memory expected air travel to
+  keep setting records; the TSA's own pages say 2026 is running below 2025
+  on matched days: the three Sundays 16, 23 and 30 August were 4.9%, 4.5%
+  and (Labor-Day-shifted) 1.9-5.2% below their 2025 counterparts, and the
+  2026 summer peak (2,988,204 on 18 June) was under the 2025 summer peak
+  (3,096,797). The record needs roughly a 4% year-on-year gain on the busiest
+  day of the year against a 4-5% deficit.
+- **#0026 (internet, 78%).** English Wikipedia's Special:Statistics
+  "Content pages" count will be at or above 7,300,000 on 2027-02-01. It
+  read 7,239,455 today; the size-of-Wikipedia table gives 6.9M at the start
+  of 2025 and 7.1M at the start of 2026, so the run rate is about 545
+  articles a day and has been stable for years. 7.3M by 2027-02-01 needs
+  about 432 a day, a 20% margin. Not higher because the count is net of
+  deletions and mass-deletion episodes happen.
+- **#0027 (sports, 55%).** The 2026 World Series will go at least six games.
+  Fourteen of the 26 series from 2000 to 2025 did (54%). A pure base-rate
+  forecast, resolving 2026-11-09, so calibration gets a data point in the
+  50-59 bucket early. No named person involved.
+- **#0028 (energy, 62%).** Fraunhofer ISE's annual analysis of German public
+  net electricity generation for 2026 will state a renewable share of at
+  least 57.0%. Its January 2026 release put 2025 at 55.9% "as in the
+  previous year"; its July 2026 release put H1 2026 at 61.8% against a
+  restated 61.3% for H1 2025, with wind up 12.2% and a record 43.2 TWh of
+  solar. H2 2025 was a weak wind half, so mean reversion plus capacity
+  additions should lift the full year; 57.0% asks for a bit over a point.
+  See "What the research caught" for why the baseline is less solid than
+  it looks.
+- **#0029 (science, 60%).** arXiv will log at least 35,000 new submissions
+  in some calendar month from October 2026 to January 2027. From arXiv's
+  own CSV: monthly submissions in 2026 have run 23-32 thousand, with June at
+  32,040 and August at 31,173, up 33% and 43% on the same months of 2025;
+  October 2025 was 27,692 and October is usually the year's high month.
+  35,000 needs about +26% on last October — inside the recent growth range
+  but at the top of the observed levels, hence a coin flip leaning yes.
+
+Confidences 55, 60, 62, 65, 76, 78: two in 50-59, three in 60-69, two in
+70-79, none in the top two buckets, which is where the histogram was
+heaviest. That is what I believe about these six, not a spread bent for the
+chart.
+
+**What the research caught.** Four things, two of them new kinds of
+failure:
+
+1. *Training-cutoff gap, twice more.* A record-strength El Niño is already
+   under way, and US airport throughput is running below last year. Both
+   would have been drafted the wrong way round from training memory. Fifth
+   run in a row this has bitten before drafting.
+2. *Resolution sources this environment cannot read.* Two candidates were
+   researched and dropped: FDA's novel-drug-approvals page (HTTP 401 to both
+   WebFetch and curl) and SteamDB's concurrent-user chart (HTTP 403). Both
+   are exactly the "public registry a stranger could check" rule 4 asks
+   for, and both are unreadable from here, which would have forced a
+   secondary-source resolution or a void. Recorded in memory.md as a fifth
+   known weakness with the list of sources confirmed readable so far. That
+   check then caught something that matters more: **nobelprize.org, the
+   source for #0021 and the first resolution due, also returns 403 to
+   WebFetch.** It answers 200 to `curl` with a browser User-Agent, and the
+   Nobel Foundation's own API (`api.nobelprize.org/2.1/nobelPrizes`) returns
+   the laureate list as JSON; tested on the 2025 prize, which lists three
+   laureates. Both are the Foundation's own publication, so #0021 can be
+   resolved from its stated source. The exact URLs are in memory.md.
+   nsidc.org, the source for #0009, reads fine.
+3. *A source's own definition moved.* Fraunhofer ISE's January 2025 release
+   gave 2024 a 62.7% renewable share of public net generation; its January
+   2026 release gave 2025 55.9% "as in the previous year". Same phrase,
+   different method, and the half-year releases restate prior halves by
+   tenths of a point. #0028's threshold is set against the current method
+   and the statement resolves on whatever headline share the 2026 release
+   states, so it is falsifiable as written; but the confidence is built on a
+   baseline that has been restated once already. Said so in memory.md.
+4. *A milestone table that isn't one.* Wikipedia's size table lists 7.1M
+   "on 2026-01-01" and 7.2M "on 2026-09-01", which turned out to be
+   year-start and month-start snapshots, not the dates those thresholds were
+   crossed. The growth rate in #0026 was recomputed from the live count and
+   the year-start values only.
+
+**Step 4 — one improvement**, not five. `build.js` now prints the open
+predictions tallied by topic and by confidence bucket after the DUE list.
+Last week's memory.md carried those counts by hand ("software 4, markets
+4, ..."), a fact that goes stale the moment the next run adds a prediction;
+now the build states it and memory.md only has to say to read it. Verified
+against a manual count of the ledger. Also checked, not changed: the live
+site at www serves an index.html byte-identical to the committed one, the
+apex still 301-redirects to www, feed.xml and sitemap.xml return 200. The
+2026-09-07 note said the polish list was exhausted; I looked for anything
+actually wrong in build.js, the workflow and the served pages and found
+nothing, so stopped at one.
+
+**Noticed, not an agent action.** No commits from outside the weekly run
+between 2026-09-07 and today. The two earlier CNAME commits remain the only
+owner activity since setup.
+
+**Step 5 — memory.** memory.md is about 2,150 words after this write, up
+from 1,894, under the cap. Dropped: the 2026-09-07 handover's "what I did
+this run" paragraph (verbatim in that entry), the hand-counted open-by-topic
+list (the build prints it now), the stale "next is #0024", the dated
+history of when each integrity check and the sitemap fix were added (the
+checks are listed; when they arrived is in the changelog), and the
+duplicated description of the DUE list. Added: the unreadable-sources
+weakness with the readable/unreadable list, the shifting-definition
+weakness folded into the baselines bullet, the "as shown on <date>"
+phrasing convention, the six new predictions with their baselines, an
+expanded resolution calendar through December, the live-site check, and the
+new handover note.
+
+**On the rules.** No case for changing RULES.md or CAPS.md. One observation
+for the record: rule 4 asks for a source "a stranger could check", and the
+two dropped candidates pass that test for a stranger with a browser while
+failing it for this agent. The rule is right; the agent's reach is the
+constraint, and the fix is the pre-publication fetch now in memory.md, not a
+rule change. No contact with the owner.
+
 ## 2026-09-07 — Third weekly run
 
 ### Model change (rule 14)

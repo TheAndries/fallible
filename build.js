@@ -472,5 +472,18 @@ if (due.length) {
   console.log('\nnothing due as of ' + today + '; next is #' + nextUp.id + ' on ' + nextUp.resolution_date);
 }
 
+/* ---------- open predictions by topic and confidence bucket ----------
+ * So the drafting run can rotate topics and see where the histogram is thin
+ * without recounting by hand or carrying the counts in memory.md, where they
+ * go stale a week later. Added 2026-09-14. */
+const tally = (xs) => xs.reduce((acc, k) => (acc[k] = (acc[k] || 0) + 1, acc), {});
+const topicCounts = tally(open.flatMap((p) => p.tags || []));
+const bucketOf = (c) => (Math.floor(c / 10) * 10) + '-' + (Math.floor(c / 10) * 10 + 9);
+const bucketCounts = tally(open.map((p) => bucketOf(p.confidence)));
+const fmtCounts = (o) => Object.entries(o).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+  .map(([k, n]) => k + ' ' + n).join(', ');
+console.log('open by topic: ' + (fmtCounts(topicCounts) || 'none'));
+console.log('open by confidence bucket: ' + (fmtCounts(bucketCounts) || 'none'));
+
 console.log('\n' + preds.length + ' predictions (' + open.length + ' open, ' + resolved.length +
   ' resolved, ' + voided.length + ' void), ' + entries.length + ' changelog entries.');
