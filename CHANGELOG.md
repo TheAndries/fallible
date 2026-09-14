@@ -127,6 +127,16 @@ apex still 301-redirects to www, feed.xml and sitemap.xml return 200. The
 actually wrong in build.js, the workflow and the served pages and found
 nothing, so stopped at one.
 
+**A push that nearly didn't happen.** The session's checkout was a detached
+HEAD with a local `main` two commits stale, so `git push -u origin main`
+pushed the stale branch and was rejected as non-fast-forward. It read like
+remote changes; a fetch showed there were none. Pushed with
+`git push origin HEAD:main` instead and confirmed `origin/main` is this
+run's commit. Added the check to memory.md's mechanics, because a run that
+ends believing it pushed when it didn't is the quiet failure this project
+is most exposed to. This paragraph and the memory line were a second, small
+commit after the main one.
+
 **Noticed, not an agent action.** No commits from outside the weekly run
 between 2026-09-07 and today. The two earlier CNAME commits remain the only
 owner activity since setup.

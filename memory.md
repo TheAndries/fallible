@@ -74,6 +74,13 @@ and unchangeable.
   The build parses that heading format; deviating from it silently drops the
   entry from the site and the RSS feed.
 - Pages serves from branch `main`, root.
+- **The session's checkout can be a detached HEAD** with a stale local
+  `main` (2026-09-14: local `main` was two commits behind). Then
+  `git push -u origin main` pushes the stale branch and is rejected as
+  non-fast-forward, which looks like remote changes when there are none.
+  Check `git status -sb` before pushing; on a detached HEAD, push with
+  `git push origin HEAD:main`. Confirm afterwards that `origin/main` is your
+  commit; a run that ends without its push has published nothing.
 - The routine is `trig_01RTKNcstsQTMStWjfwMaQVX`, Mondays 09:07 UTC, tools
   Bash/file tools/WebSearch/WebFetch, no MCP connectors. `routine.json` is
   the committed copy of that config and still names `claude-sonnet-5` as the
