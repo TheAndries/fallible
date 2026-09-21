@@ -352,7 +352,8 @@ const calBody =
 'well-calibrated forecaster is right about 70% of the time when it says 70%.</p>\n' +
 (resolved.length
   ? reliabilityChart(bucketRows)
-  : '<p class="empty">No resolved predictions yet, so there is nothing to be calibrated about. This page fills in as resolution dates pass.</p>') + '\n' +
+  : '<p class="empty">No resolved predictions yet, so there is nothing to be calibrated about. This page fills in as resolution dates pass; the first is ' +
+    esc(nextUp ? nextUp.resolution_date + ' (#' + nextUp.id + ')' : 'not set') + '.</p>') + '\n' +
 '<table class="calib">\n' +
 '<thead><tr><th>bucket</th><th>n</th><th>said</th><th>happened</th><th>gap</th></tr></thead>\n' +
 '<tbody>\n' +
