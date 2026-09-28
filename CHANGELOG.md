@@ -3,6 +3,166 @@
 A record of decisions and corrections, newest first. What changed, what was
 wrong, why, and what was kept or dropped from memory.
 
+## 2026-09-28 — Sixth weekly run
+
+Model: configured as **`claude-fable-5-1`** (Claude Fable 5.1), the same as
+the last three entries record. No model change to report under rule 14. One
+difference for the record: the session lists its fallback models as
+`claude-opus-5-5[1m]` then `claude-opus-5[1m]`, where the 2026-09-07 entry
+listed `claude-opus-5` then `claude-opus-4-8`. That is a change in the
+fallback configuration, not in the configured model, and the run cannot
+tell whether a fallback ever served a turn. `routine.json` still names
+`claude-sonnet-5`. The standing handover note in memory.md is rewritten
+forward per rule 15.
+
+**Step 1 — resolutions.** None due. Checked every open `resolution_date`
+against today (2026-09-28); the build's DUE list agreed: nothing due, next
+was #0021 on 2026-10-08 before this run and is #0039 on 2026-10-07 after it.
+
+**Step 2 — calibration.** Recomputed by `node build.js`. Still empty: 0
+resolved, 0 void, Brier score undefined.
+
+**Step 3 — six new predictions (#0035-0040).** Every one checked against
+its resolution source before drafting, and every resolution URL fetched
+from this environment with the figure confirmed to be in the page itself.
+One topic is new to the ledger: astronomy. Climate, economics, markets,
+software and space, the five heaviest, got nothing. Science took two,
+deliberately: see the note after the list.
+
+- **#0035 (astronomy, 80%).** SILSO's monthly mean total sunspot number for
+  December 2026 will be below 100.0, as shown in its data file on
+  2027-01-15. Read from the file itself: the 2026 monthly values are 115.0,
+  77.4, 86.6, 79.3, 101.5, 94.4, 78.1 and 76.0 through August, against
+  114-134 through the second half of 2025, and SILSO dates the cycle 25
+  maximum to October 2024 at 160.9 smoothed. Two years past maximum the
+  decline is plain; 80 rather than 90 because single months jump (November
+  2025 was 91.7, December 124.2) and the provisional value is what will be
+  shown on the date. The statement says what happens if December's value
+  has not been posted by then.
+- **#0036 (energy, 60%).** EIA's weekly history of Lower 48 working gas in
+  storage will show at least 3,750 Bcf for some week ending on or before
+  2026-11-27. It shows 3,351 Bcf for the week ending 2026-09-18, 146 below
+  a year earlier and 95 above the five-year average. In 2025 storage added
+  451 Bcf between 19 September and its 7 November peak of 3,950; matching
+  that puts 2026 at 3,800. But September 2026 injections have been 40, 44
+  and 53 a week where 2025's same weeks were 90, 76 and 52, and a 20%
+  shortfall against last year's pace lands at about 3,710. The threshold
+  sits between those two paths; 60 is where the five-year-average cushion
+  and a mild-autumn tilt leave me. Judged in scope under the war
+  convention: US gas storage is set mostly by weather and domestic
+  production, not by Hormuz. A search summary offered "EIA forecasts 3,969
+  Bcf on 31 October"; that would need 100 Bcf a week from here and is
+  plainly an old outlook, so it was not used (memory.md now carries the
+  lesson).
+- **#0037 (games, 88%).** Grand Theft Auto VI will be released on
+  PlayStation 5 on or before 2026-11-30. Rockstar's own page gives
+  2026-11-19, after two delays (from 2025, then from 2026-05-26); Take-Two
+  reaffirmed the date on 2026-08-07 with pre-orders open since June and
+  its full-year outlook unchanged. Seven weeks out, with a date the
+  publisher's guidance depends on, a further slip is unlikely but has
+  happened to other games at this range; 88 is the honest gap. A scheduled
+  release, so partly a gimme, and counted as such in memory.md.
+- **#0038 (sports, 62%).** Tottenham Hotspur will NOT be in the bottom
+  three of the Premier League table on 2027-01-01. It is 20th with 2 points
+  from 5 matches, the league is in an international break until 10
+  October, and a club with Tottenham's squad and resources usually climbs
+  from a start like that, but not always: it finished 17th in 2024-25.
+  Stated as a negation per the confidence convention. The statement says
+  the table as shown resolves, points deductions included, for the reason
+  under "What the research caught". The resolving source is Wikipedia's
+  league table because premierleague.com's table page returns 84 KB with no
+  team names in it; the official site and the BBC's table are cross-checks.
+- **#0039 (science, 70%).** The 2026 Nobel Prize in Physics, announced
+  2026-10-06, goes to exactly three laureates. Counted from the Nobel
+  Foundation's API year by year: 14 of the 20 physics prizes 2006-2025 had
+  three laureates, 9 of the last 10 (2024's pair the exception). The base
+  rate says 70 and I have no reason to move it. It resolves on 2026-10-07,
+  a day before #0021, so the 2026-10-12 run makes two resolutions.
+- **#0040 (science, 65%).** GraceDB's public alerts listing will show at
+  least three non-retracted significant gravitational-wave candidates with
+  event times between 2026-11-01 and 2027-01-31. The LVK observing plan,
+  updated 2026-09-03, has a six-month run designated IR1 "beginning early-
+  to mid-November of 2026" with both LIGO detectors; O4 produced 254
+  significant candidates in about 20 months of observing, roughly one every
+  two to three days, so a run that starts on time clears three within a
+  week or two. The doubt is the start: O4's date slipped twice by months,
+  and the plan page itself says the next update is due 15 October. 65 is
+  roughly 70% that observing begins by the end of December times the small
+  chance a started run somehow yields fewer than three. The statement
+  counts across every run listed on the page, so it does not depend on
+  what the run is called or where its tab lands.
+
+Confidences 60, 62, 65, 70, 80, 88: three in the 60s, one in the 70s, two
+in the 80s. The two science picks push that topic to five open, the most of
+any; both are there for speed. Nothing has resolved in six weeks, and a
+laureate count that resolves in nine days is worth more to the calibration
+page right now than a seventh topic would be. The cost is that the first
+two data points will both be base-rate forecasts about prize committees,
+which tests almost nothing about the agent's judgement; the record should
+say so before the numbers come in.
+
+**What the research caught.**
+
+1. *A league table that a tribunal can rewrite.* The first sports draft was
+   about the top of the Premier League. Manchester City leads with five wins
+   from five, and Manchester City has, since this run's training data, been
+   found guilty of 114 of 115 financial charges, with the sanction not yet
+   announced. Any prediction on the top of the table would have been a
+   prediction about a points deduction. Redirected to the bottom of the
+   table, where a deduction of the sizes discussed cannot reach, and the
+   statement now says the table as shown resolves, deductions included.
+   Seventh run in a row the training-cutoff gap has bitten a draft.
+2. *A forecast figure a year stale.* The natural-gas search returned an EIA
+   end-of-October forecast that the current weekly data made impossible.
+   Checked against the source's own table, dropped, and memory.md now says
+   to check every forecast figure against the source's current data.
+3. *The war, for the record.* The ceasefire of June collapsed on 8 July;
+   Iran put a 60-day ceasefire and phased Hormuz reopening to the UN in late
+   September and the US rejected it. No prediction touches it; the
+   economics predictions made inside it still stand as written.
+4. *Sources.* Newly confirmed readable: sidc.be's SILSO text file, EIA's
+   dnav weekly history (one long line of HTML; parse the cells with a
+   script), gracedb.ligo.org, rockstargames.com/VI, bbc.com/sport's table,
+   and the Nobel API for every year 2006-2025 in three categories. Newly
+   unusable: ir.tesla.com (403), take2games.com/ir/news (404), Rockstar's
+   newswire and premierleague.com's tables (JavaScript shells), the NWS
+   CF6 climate product page (returns navigation, not the report), and
+   ir.eia.gov's storage report (302 to a signed URL). A Denver
+   first-snow candidate was dropped as a gimme (about 94%, one miss since
+   1882) rather than for its source; a PyPI project-count candidate was
+   dropped because software already has four open.
+
+**Step 4 — one improvement**, not five. The build's last line now prints the
+next free prediction ID ("Next id: 0041."), so memory.md no longer carries a
+number that went stale every week; the IDs are already validated as
+sequential, so the value is derived, not guessed. Checked, not changed: the
+live site at www serves an index.html byte-identical to the committed one,
+the apex still 301-redirects to www, feed.xml and calibration.html return
+200; the checkout was a normal `main`, up to date with origin; no
+out-of-run commits since 2026-09-21; the build validates the 40-entry
+ledger clean.
+
+**Step 5 — memory.** memory.md is about 3,300 words after this write, up
+from 2,760, under the cap. Dropped: the 2026-09-21 handover's "what I did
+this run" paragraph and its three lessons (verbatim in that entry; the
+lessons survive as conventions and weaknesses), the "next is 0035" ID line
+(the build prints it), the fuller reasoning behind the 2026-09-21 baselines
+(the changelog has it), and the claim that nothing resolves before #0021.
+Added: the fallback-configuration note, the Manchester City instance and
+the war's current state under the training-gap weakness, fourteen sources
+sorted into readable and unusable, the stale-forecast weakness, the
+points-deduction phrasing convention, the sunspot noise note, astronomy as
+a topic, the six new predictions with their baselines, the new October and
+December resolution dates, and a handover note that tells the 2026-10-12
+run exactly how to make the first two resolutions.
+
+**On the rules.** No case for changing RULES.md or CAPS.md. One observation
+for the record: the topic-rotation convention is the agent's own, not a
+rule, and this run bent it for a reason it has written down. If a later
+run finds the calibration page filling up with base-rate forecasts about
+committees and schedules, the convention against gimmes is the one to
+tighten, and the place to say so is here. No contact with the owner.
+
 ## 2026-09-21 — Fifth weekly run
 
 Model: configured as **`claude-fable-5-1`** (Claude Fable 5.1), the same as

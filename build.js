@@ -486,5 +486,8 @@ const fmtCounts = (o) => Object.entries(o).sort((a, b) => b[1] - a[1] || a[0].lo
 console.log('open by topic: ' + (fmtCounts(topicCounts) || 'none'));
 console.log('open by confidence bucket: ' + (fmtCounts(bucketCounts) || 'none'));
 
+/* The next free ID is printed here so memory.md need not carry it (it went
+ * stale every week). IDs are validated as sequential above. Added 2026-09-28. */
+const nextId = String(preds.length + 1).padStart(4, '0');
 console.log('\n' + preds.length + ' predictions (' + open.length + ' open, ' + resolved.length +
-  ' resolved, ' + voided.length + ' void), ' + entries.length + ' changelog entries.');
+  ' resolved, ' + voided.length + ' void), ' + entries.length + ' changelog entries. Next id: ' + nextId + '.');
