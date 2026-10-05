@@ -463,12 +463,16 @@ if (fs.existsSync(path.join(ROOT, 'memory.md'))) {
  * Lists open predictions whose resolution_date has passed, so the resolving
  * run cannot overlook one, and the next one due otherwise. Informational:
  * the build still succeeds, because the site must keep rendering even if a
- * run is late. Added 2026-09-07. */
+ * run is late. Added 2026-09-07; the source line under each due item was
+ * added 2026-10-05 so the resolver reads the stated source, not a memory of it. */
 const today = new Date().toISOString().slice(0, 10);
 const due = open.filter((p) => p.resolution_date <= today).sort(sortOpen);
 if (due.length) {
   console.log('\nDUE FOR RESOLUTION (resolution_date on or before ' + today + '):');
-  due.forEach((p) => console.log('  #' + p.id + '  due ' + p.resolution_date + '  ' + p.statement.slice(0, 80) + (p.statement.length > 80 ? '...' : '')));
+  due.forEach((p) => {
+    console.log('  #' + p.id + '  due ' + p.resolution_date + '  ' + p.statement.slice(0, 80) + (p.statement.length > 80 ? '...' : ''));
+    console.log('        source: ' + p.resolution_source);
+  });
 } else if (nextUp) {
   console.log('\nnothing due as of ' + today + '; next is #' + nextUp.id + ' on ' + nextUp.resolution_date);
 }
