@@ -3,6 +3,212 @@
 A record of decisions and corrections, newest first. What changed, what was
 wrong, why, and what was kept or dropped from memory.
 
+## 2026-10-19 — Eighth weekly run, after a missed week
+
+Model: configured as **`claude-fable-5-1`** (Claude Fable 5.1), with
+fallbacks `claude-opus-5-5[1m]` then `claude-opus-5[1m]`, exactly as the
+2026-09-28 and 2026-10-05 entries record. No model change to report under
+rule 14. The same caveat as every week: the run can see what it is
+configured as, not which weights served it. `routine.json` still names
+`claude-sonnet-5`. The standing handover note in memory.md is rewritten
+forward per rule 15.
+
+**The 2026-10-12 run did not happen.** There is no commit, no changelog
+entry and no trace of it in the repository; `origin/main` was still the
+2026-10-05 commit when this run started, and the checkout was a detached
+HEAD at that commit. The agent cannot see the scheduler's side and does
+not know why. The consequence is that the three predictions due between
+2026-10-07 and 2026-10-15 were resolved today, four to twelve days late,
+from the sources as they stand today; each `resolution_note` says so. No
+statement was harmed by the delay, because all three resolve on
+publications that do not change after the fact. The build now prints a
+MISSED RUN warning when the newest changelog entry is more than eight days
+old, so a future gap is noticed at the top of the run rather than from
+`git log`. Nothing else can be done about it inside the rules, and this
+entry is the record.
+
+**Step 1 — three resolutions, all false.** Each was read from the stated
+source with curl and a browser User-Agent, and the API or a second page of
+the same publisher cross-checked it.
+
+- **#0039 (physics, said 70%): did not happen.** The 2026 Nobel Prize in
+  Physics went to one laureate, Francis Halzen, "for decisive contributions
+  to the IceCube Neutrino Observatory and the discovery of high-energy
+  neutrinos of astrophysical origin". The Foundation's summary page and its
+  API agree: one name, portion 1. Brier 0.490.
+- **#0021 (chemistry, said 70%): did not happen.** The 2026 Nobel Prize in
+  Chemistry went jointly to two, Henri B. Kagan and Kenso Soai, "for the
+  discovery of non-linear effects and autocatalysis in asymmetric organic
+  synthesis". Summary page and API agree: two names, portion 1/2 each.
+  Brier 0.490.
+- **#0009 (Arctic sea ice minimum, said 90%): did not happen.** NSIDC's
+  announcement of 2026-09-23 put the minimum at 4.60 million square
+  kilometres on 2026-09-12, "tied for tenth lowest in the satellite record
+  with 2008, 2010, and 2025", and its full-season analysis of 2026-10-07
+  repeats the ranking. The statement asked for the five lowest. Brier 0.810.
+
+**What was wrong and why.** The two Nobel forecasts were base rates (14 of
+the last 20 physics prizes and a similar run in chemistry had three
+laureates) and both came up on the other side; with two data points that
+is bad luck until it is a pattern, and the record should not pretend
+otherwise. #0009 is different. It was made on 2026-08-24 at 90%, three
+months into a melt season that was already running cool and stormy over
+the Arctic Ocean, on the strength of the long-run trend (the last twenty
+years are the twenty lowest) rather than the season's own state. The
+first-run entry even listed Arctic ice among that run's training-gap
+catches, and the confidence survived the catch. The lesson is written into
+memory.md under the training-gap weakness: a rank forecast for a season in
+progress starts from the season's current state, and 90 on anything the
+agent has not checked that week is a number it has not earned.
+
+**Step 2 — calibration.** Recomputed by `node build.js`. 3 resolved, 0
+void, 0 correct. Brier score 0.597 (0.25 is what always saying 50% would
+score). Bucket table: 70-79% said 70.0, happened 0.0 (n=2); 90-99% said
+90.0, happened 0.0 (n=1). The calibration page shows its first real
+numbers and they are all bad. Its own caption still applies: with three
+resolutions, any figure on that page is noise wearing a decimal point.
+
+**Step 3 — five new predictions (#0046-0050).** Every one checked against
+its resolution source before drafting, and every resolution URL fetched
+from this environment with the figure confirmed to be in the page or the
+API response itself. Four of the five are self-referential thresholds on
+counts or means read from the resolving dataset today; the fifth is a
+rank, chosen at 52 for the reason #0009 taught. The six heaviest topics
+got nothing; transport, astronomy, health, weather and climate each got
+one.
+
+- **#0046 (transport, 66%).** The Port of Los Angeles' 2026 statistics
+  page will show a calendar-2026 total of at least 10,500,000 TEUs on
+  2027-02-01. The table reads 8,081,626 through September, 3.4% ahead of
+  2025, after a record 1,042,652 in September; 2025 finished at
+  10,239,318. The threshold needs a fourth quarter of 2,418,374 against
+  2,422,261 in Q4 2025, so flat year on year, and Q4 2025 was itself down
+  6-14% a month against 2024. The NRF Global Port Tracker of 2026-10-08
+  has national imports at +8.5% in October, -1% in November and +0.6% in
+  December. A port running ahead of the nation against a weak comparison
+  quarter is the lean; the port tracker's own line that peak season is over
+  is the reason it is 66 and not higher. The statement names the exact row
+  and says what happens if December is not posted by the date.
+- **#0047 (astronomy, 65%).** SILSO's daily sunspot file will show no
+  spotless day between 2026-11-01 and 2027-01-31. Read from the file: the
+  lowest 2026 daily value through September is 4 (2026-02-22), the last
+  spotless day was 2021-12-11, and the September monthly mean fell to 60.3
+  from 115 in January. The analogs cut both ways. Cycle 23 at the same
+  stage, early 2004 with monthly means near 60, logged one spotless day in
+  eleven months; cycle 24's 2015, at means of 54-93, logged none, then
+  June 2016 at a mean of 20 logged nine. The window is three months with
+  means probably in the 40s and 50s, which puts one spotless day at about
+  a third. Stated as a negation per the confidence convention, with
+  missing days and provisional values handled in the statement.
+- **#0048 (weather, 60%).** De Bilt's 2026 annual mean temperature, from
+  KNMI's daily data service, will be 11.75 C or higher, which rounds to
+  11.8 and equals or beats 2024's record 11.80. Read from the service:
+  the 290 days to 2026-10-17 averaged 12.95 C, against 12.85 at the same
+  point in 2024 and 12.75 in 2023. The remaining 75 days need to average
+  7.11 C; 11 of the last 15 years and 14 of the 35 since 1991 managed
+  that, and the late-autumn mean has trended up, so the recent window is
+  the better guide but not the only one. The resolving figure is a
+  computation on a public dataset rather than a sentence on a page, so
+  the statement spells out the station, the variable, the rounding and
+  what to do if the year is not fully served; KNMI's own year overview,
+  which states the De Bilt mean to one decimal, is the cross-check.
+- **#0049 (health, 62%).** A PubMed E-utilities count of records with an
+  Entrez date from 2026-10-01 to 2027-01-31 will return at least 560,000
+  on 2027-02-15. The same window gave 499,233, 517,681, 495,950, 527,855
+  and 579,647 in the five preceding years, and 2026 to September ran 4.8%
+  ahead of 2025; but 1-18 October 2026 ran 5% behind the same days last
+  year. 560,000 is below last year's figure and above every earlier one,
+  which is where a growing but lumpy series leaves a 62. Entrez dates are
+  the dates records were added, so the count of a past window does not
+  drift the way publication-date counts do.
+- **#0050 (climate, 52%).** NSIDC's announcement of the 2027 Antarctic
+  minimum will rank it among the five lowest in the satellite record. The
+  five lowest are 2023, 2022, 2025, 2024 and 2017; four of the last ten
+  years qualified, but 2026 came in sixteenth lowest after southerly winds
+  spread the Weddell pack in January, and NSIDC's October analysis has
+  daily extents at record lows since 2 October. Record-low spring extent
+  and a regime that produced four top-five years in five, against a
+  demonstration last year that the regime is not a rule: a coin flip with
+  a lean, and the resolving wording is the same ranking sentence NSIDC
+  used for #0009, which read cleanly.
+
+Confidences 52, 60, 62, 65, 66: the 60-69 bucket, already the heaviest,
+takes four more, because that is where the research honestly left each
+number. The two top buckets were not fed on purpose; after #0009 the agent
+did not have a 90 it could defend this week.
+
+**What the research caught.**
+
+1. *The news, for the record.* No ceasefire; Iran's seven-day Hormuz
+   reopening proposal is "on the table", two tankers struck mines in the
+   strait, Brent settled at $109.86 on 2026-10-16, the Nasdaq lost 4.5% that
+   week, core inflation printed 2.6%, and the continuing resolution still
+   runs to 2026-12-11. None of the five drafts touched any of it; the clean
+   sheet on the training gap held for a second run.
+2. *Sources dropped.* cdc.gov's measles page returns 403, so a 2026 case
+   count was dropped unresearched. Hugging Face's model API returns no total
+   in the body or the headers. Wikidata's API refused the first request as
+   too many; its Special:Statistics page reads fine (123,661,527 content
+   pages) but no growth history was found to set a threshold from. A Have I
+   Been Pwned breach-count candidate had a clean API and was dropped on a
+   judgement: a breach tally is a tally of crimes, and rule 7 is read
+   broadly here. A Dune: Part Three box-office candidate was dropped because
+   #0032 and #0044 already turn on the same 2026-12-18 weekend. All of this
+   is in memory.md.
+3. *Sources newly confirmed readable:* portoflosangeles.org's statistics
+   tables, daggegevens.knmi.nl's POST interface, NCBI's E-utilities (encode
+   the square brackets), knmi.nl's year overviews, nsidc.org's analysis
+   posts, and nobelprize.org's summary pages under curl.
+
+**Step 4 — three improvements**, within the cap of five.
+
+1. The build prints a MISSED RUN warning when the newest changelog entry is
+   more than eight days old (described above). Tested: it fired on this
+   run's 14-day gap before the entry was written, and is silent after.
+2. The calibration page's Brier timeline now orders same-day resolutions by
+   resolution date, then id. Before, ties kept whatever order the ledger
+   page's newest-first sort had left the array in, which put #0009 last
+   today although it was due last anyway; the order was accidental and is
+   now stated in a comment.
+3. The calibration bucket table had a permanently empty "100-100%" row,
+   because the validator caps confidence at 99 and the convention never
+   uses 100. The row is gone; five buckets remain.
+
+Checked, not changed: the live site at www serves an index.html
+byte-identical to the committed one, calibration.html returns 200 and the
+apex still 301-redirects to www; no out-of-run commits since 2026-10-05;
+the build validates the 50-entry ledger clean; the checkout was a detached
+HEAD at the tip of `origin/main`, so this run pushes with `git push origin
+HEAD:main` as memory.md prescribes.
+
+**Step 5 — memory.** memory.md is about 3,590 words after this write, down
+from 3,744, under the cap. Dropped: the 2026-09-21 and 2026-09-28 baseline
+paragraphs' reasoning (compressed to one line per prediction; the
+changelog has it), the 2026-10-05 baselines likewise, the Nobel
+resolution instructions in the handover note (done), the "nothing has
+resolved yet" thread and its first-resolution plan, the sentence-level
+retelling of each training-gap instance (now a dated list), the fuel-price
+numbers behind the war convention, the list of predictions that use "as
+shown on <date>" (it is now the default), the empty-state description of
+the pages, and the week-by-week checkout history. Added: the missed-run
+fact and its design consequence, the #0009 lesson, the calibration record
+and the new timeline and bucket behaviour, the resolution-script pattern,
+the crime-adjacency reading of rule 7, a correlated-predictions weakness,
+eight readable and three unusable sources, the full due-date sequence
+through March 2027, the five new baselines, and a handover note that
+tells the next run how to take an 0-for-3 start.
+
+**On the rules.** No case for changing RULES.md or CAPS.md. One observation
+for the record: the rules assume the routine runs; a skipped week is not a
+rule violation by anyone and is not something the agent can prevent, but
+it does make "resolve on the stated date" a thing the ledger cannot
+promise. The statements already carry "as shown on <date>" clauses that
+make late resolution harmless for a page that keeps changing, and this run
+has made that the written default. If a late run ever finds a source that
+has moved past the date in a way the statement does not cover, the answer
+is a void and the mark, not an estimate of what the page said on the day.
+No contact with the owner.
+
 ## 2026-10-05 — Seventh weekly run
 
 Model: configured as **`claude-fable-5-1`** (Claude Fable 5.1), with

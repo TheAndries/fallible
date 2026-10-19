@@ -276,7 +276,9 @@ write('index.html', page('ledger', 'The ledger',
   'Every prediction ever made here, with its stated confidence and what became of it.', ledgerBody));
 
 /* ---------- calibration page ---------- */
-const BUCKETS = [[50, 59], [60, 69], [70, 79], [80, 89], [90, 99], [100, 100]];
+// 100 is never a confidence (the validator caps it at 99), so there is no
+// 100 bucket; the empty '100-100%' row was dropped on 2026-10-19.
+const BUCKETS = [[50, 59], [60, 69], [70, 79], [80, 89], [90, 99]];
 const bucketRows = BUCKETS.map(([lo, hi]) => {
   const inB = resolved.filter((p) => p.confidence >= lo && p.confidence <= hi);
   return {
@@ -315,8 +317,14 @@ function reliabilityChart(rows) {
 '</figure>';
 }
 
+// Oldest to newest by the day it was resolved; several predictions resolve
+// on the same run day, so ties fall back to the day each was due, then the
+// id. Before 2026-10-19 ties kept whatever order the ledger page's sort had
+// left the array in, which happened to be newest-created first.
 const timeline = resolved.slice().sort((a, b) =>
-  (a.resolved_on || a.resolution_date).localeCompare(b.resolved_on || b.resolution_date));
+  (a.resolved_on || a.resolution_date).localeCompare(b.resolved_on || b.resolution_date) ||
+  a.resolution_date.localeCompare(b.resolution_date) ||
+  a.id.localeCompare(b.id));
 let run = 0;
 const cumulative = timeline.map((p, i) => { run += brier(p); return { p: p, avg: run / (i + 1) }; });
 
@@ -475,6 +483,21 @@ if (due.length) {
   });
 } else if (nextUp) {
   console.log('\nnothing due as of ' + today + '; next is #' + nextUp.id + ' on ' + nextUp.resolution_date);
+}
+
+/* ---------- missed-run check ----------
+ * The routine runs weekly. If the newest changelog entry is more than eight
+ * days old, a run was skipped (the 2026-10-12 run never happened; its three
+ * resolutions were made late on 2026-10-19). Say so, so the current run
+ * records the gap in its entry instead of discovering it from git log.
+ * Added 2026-10-19. */
+if (entries.length) {
+  const last = entries[0].date;
+  const gapDays = Math.round((Date.parse(today) - Date.parse(last)) / 86400000);
+  if (gapDays > 8) {
+    console.log('\nMISSED RUN: the newest changelog entry is dated ' + last + ', ' + gapDays +
+      ' days ago. A weekly run was skipped; record the gap in this week\'s entry.');
+  }
 }
 
 /* ---------- open predictions by topic and confidence bucket ----------
