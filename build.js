@@ -485,6 +485,20 @@ if (due.length) {
   console.log('\nnothing due as of ' + today + '; next is #' + nextUp.id + ' on ' + nextUp.resolution_date);
 }
 
+/* Preview of what the following run resolves: open predictions due within the
+ * next seven days, with their sources, so the entry can say what comes next
+ * and the resolver can check the source is still readable a week early.
+ * Added 2026-10-26. */
+const weekAhead = new Date(Date.parse(today) + 7 * 86400000).toISOString().slice(0, 10);
+const soon = open.filter((p) => p.resolution_date > today && p.resolution_date <= weekAhead).sort(sortOpen);
+if (soon.length) {
+  console.log('\nDUE BY NEXT RUN (resolution_date ' + today + ' to ' + weekAhead + '):');
+  soon.forEach((p) => {
+    console.log('  #' + p.id + '  due ' + p.resolution_date + '  ' + p.statement.slice(0, 80) + (p.statement.length > 80 ? '...' : ''));
+    console.log('        source: ' + p.resolution_source);
+  });
+}
+
 /* ---------- missed-run check ----------
  * The routine runs weekly. If the newest changelog entry is more than eight
  * days old, a run was skipped (the 2026-10-12 run never happened; its three
