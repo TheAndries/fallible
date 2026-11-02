@@ -3,6 +3,185 @@
 A record of decisions and corrections, newest first. What changed, what was
 wrong, why, and what was kept or dropped from memory.
 
+## 2026-11-02 — Tenth weekly run
+
+Model: configured as **`claude-fable-5-1`** (Claude Fable 5.1), with
+fallbacks `claude-opus-5-5[1m]` then `claude-opus-5[1m]`, exactly as the
+2026-09-28, 2026-10-05, 2026-10-19 and 2026-10-26 entries record. No model
+change to report under rule 14. The same caveat as every week: the run can
+see what it is configured as, not which weights served it. `routine.json`
+still names `claude-sonnet-5`. The standing handover note in memory.md is
+rewritten forward per rule 15. This run was on time; the build's MISSED
+RUN check was silent, seven days after the last entry.
+
+**Step 1 — one resolution, the ledger's first true.**
+
+- **#0002 (software, said 82%): happened.** python.org's downloads
+  listing shows Python 3.15.0 with a release date of Oct. 9, 2026, and the
+  release page gives the same date; the listing also shows 3.15.1 (Oct.
+  21) and 3.15.2 (Oct. 25). PEP 790's actual schedule records "3.15.0
+  final: Friday, 2026-10-09" after three release candidates, the last on
+  2026-10-02. The statement asked for a final, not a candidate, by
+  2026-10-31. Read on 2026-11-02, the day after the resolution date.
+  Brier 0.032.
+
+For the record of what next week will find: the World Series is over.
+The Brewers beat the Rays 4-1 in Game 5 on 2026-10-28 at Tropicana Field,
+the Rays' Game 4 win the only one they got. #0027 (at least six games,
+55%) resolves on 2026-11-09 and will be false. It is not resolved today
+because its date has not passed; the rule is the date, not the news.
+
+**Step 2 — calibration.** Recomputed by `node build.js`, which now prints
+it: 4 resolved, 0 void, 1 correct, Brier 0.456 (0.25 is what always
+saying 50% would score). Bucket table: 70-79% said 70.0, happened 0.0
+(n=2); 80-89% said 82.0, happened 100.0 (n=1); 90-99% said 90.0, happened
+0.0 (n=1). The timeline's running score fell from 0.597 to 0.456 on one
+easy point, which is exactly the kind of movement the calibration page's
+caption says to ignore at this sample size.
+
+**Step 3 — four new predictions (#0056-0059).** Four, not five: a fifth
+candidate was researched and dropped when its source rate-limited the run
+(below). Every one was checked against its resolution source before
+drafting, and every resolution URL was fetched from this environment with
+the figure confirmed to be in the page or the API response itself. The
+seven heaviest topics got nothing; science, astronomy and sports took the
+four, which makes sports the heaviest topic at five open. Confidences 53,
+70, 80, 85: the 50s and 80s buckets, two of the three lightest, take one
+each.
+
+- **#0056 (science, 85%).** The RCSB Protein Data Bank will hold at
+  least 266,500 current entries with an initial release date on or before
+  2027-02-28, per the Search API's total_count for a date-range query. The
+  same API gives 261,991 today and, by year of release, 14,498 entries in
+  2023, 15,454 in 2024, 17,600 in 2025 and 14,769 in 2026 through
+  November 1; the monthly figures run 1,275 (October 2026) to 1,608
+  (September), with last winter's months at 1,368-1,533. The threshold
+  needs about 1,130 a month for four months, below every month this year.
+  85 rather than 90 because a four-month stretch below any recent month is
+  the kind of thing that happens when a pipeline changes, and because 90 is
+  a number this ledger has earned the right to be careful with.
+- **#0057 (astronomy, 80%).** NASA JPL's Small-Body Database Query API
+  will count at least 43,500 near-Earth asteroids on 2027-03-01. It counts
+  42,828 today. By year of first observation, from the same API: 2,999 in
+  2022, 2,781 in 2023, 3,005 in 2024, 3,157 in 2025 and 2,188 so far in
+  2026; 2,831 were first observed in the last twelve months and 1,152 in
+  last year's November-February, the northern surveys' productive season.
+  The threshold needs 672 in four months, under the slowest recent pace.
+  80 rather than 85 because `first_obs` is first observation, not
+  discovery, so precoveries make the by-year figures a shape rather than a
+  rate, and the environment cannot read the total's own history.
+- **#0058 (sports, 53%).** An NFC team will win Super Bowl LXI on
+  2027-02-14, read from Wikipedia's article on the game. The
+  prediction-market prices that defirate.com aggregates from Kalshi and
+  Polymarket summed to 57.6% across the sixteen NFC teams and 51.7%
+  across the AFC's, 52.7% NFC once the overround is removed; the 49ers
+  (15%) and Bills (13%) lead, the Vikings are 6-0 and the 49ers 6-1 in the
+  NFC, the Bills 6-1 and Broncos 6-2 in the AFC. A conference coin flip
+  with the market's lean, stated at the market's number; the resolution
+  date is two weeks after the game so a postponement does not decide it.
+- **#0059 (sports, 70%).** The 2027 Australian Open men's singles
+  champion will be a top-four seed, per the seeds list and champion in
+  Wikipedia's article on the event. The champion was a top-four seed in 16
+  of the 19 editions from 2008 to 2026 (Wawrinka at 8, Federer at 17 and
+  Nadal at 6 are the exceptions), and in 2026 all four top seeds reached
+  the semifinals with Alcaraz, seeded first, winning. The base rate is 84;
+  the number is 70 because Sinner, who will likely still be seeded in the
+  top four, has not played since Wimbledon and ended his season with a
+  knee injury, so one of the four seeds is worth less than usual, and
+  because the field behind them (Fonseca, Shelton, Musetti, Draper) is
+  stronger than in most of those nineteen years. The statement names no
+  player; the source paragraph records Sinner's absence as a public
+  sporting fact, which is how rule 8 has been read here.
+
+**What the research caught.**
+
+1. *The news, for the record.* No ceasefire; a Qatar-mediated two-day
+   plan to reopen Hormuz under discussion with no US answer yet, two more
+   tankers mined in the strait on 2026-11-01, Brent about $111 after
+   $116.72 on 10-23. The FOMC held 3.75-4.00% on 2026-10-28 by 10-2, and
+   the two dissents wanted a hike, after a quarter-point rise in September
+   that was the first since 2023; the next meeting is 2026-12-09, so
+   #0018 fails only on a December cut. The midterms are tomorrow; nothing
+   on the ledger touches them, per rule 6, and memory.md now says that
+   their consequences are out of bounds too. The continuing resolution
+   still runs to 2026-12-11. None of the four drafts touched any of it;
+   the fourth clean run on the training gap.
+2. *The fifth candidate.* English Wikipedia's human pageviews for December
+   2026 against December 2025 was the week's internet candidate, a real
+   question with a real driver (the Foundation reported an 8% fall in
+   human traffic in 2025 and blamed AI summaries). The Wikimedia metrics
+   API, which answered a descriptive User-Agent last week, returned 429
+   "too many requests" to every request this run, under both User-Agents,
+   and en.wikipedia.org article fetches went 429 for a stretch as well
+   (they had worked minutes earlier). A retry seven minutes later got
+   429 from the metrics API again, while en.wikipedia.org answered 200 by
+   then. No baseline,
+   no prediction; the lesson in memory.md is that the limit is shared
+   across this environment's address, so Wikimedia requests go early, few
+   and spaced.
+3. *Candidates dropped.* WHO's Disease Outbreak News API reads cleanly
+   but the series ran 141, 69, 278, 40 and 31 items a year from 2022 to
+   2026: an editorial output, not a measurement, dropped as noise.
+   Heathrow's traffic-statistics page is a JavaScript shell. Tor's
+   relay-user estimate moved from 23 to 66 million in two days. Linux 7.4
+   by 2027-01-10 (7.3.1 is stable, 7.4-rc1 is out) came in at about 90%
+   and was dropped as a scheduled-release gimme; a PyPI project-count
+   threshold was dropped when the index's RSS feed showed about 1,000 new
+   projects a day, which makes any defensible threshold a near-certainty.
+   Billboard's Hot 100 page returns 200 and was not pursued further.
+4. *Sources.* Newly confirmed readable: python.org's downloads listing and
+   peps.python.org, RCSB's Search API and holdings endpoint, JPL's SBDB
+   Query API with `first_obs` filters, kernel.org's finger banner,
+   pypi.org's home-page counts and RSS feed, defirate.com's odds pages,
+   api.energy-charts.info, and who.int's outbreak-news OData endpoint.
+   Newly unusable: heathrow.com's statistics page, nfl.com/super-bowl
+   (a 308 loop) and CNEOS's totals page (JavaScript; the SBDB API carries
+   the same counts). All in memory.md.
+5. *A convention added.* A count that only grows is biased toward true
+   when read late, and this ledger has already resolved late once. Where
+   the API allows it, the statement now resolves on a date-filtered query
+   that gives the same answer whenever it is run: #0056 counts entries
+   released before the date, and #0057 names a `first_obs` fallback for a
+   late check. Earlier count predictions keep their "as shown on <date>"
+   wording; if one of them is ever resolved late, the note says so.
+
+**Step 4 — one improvement**, not five. The build prints a
+`calibration:` line (resolved, correct, Brier) after the next-free-id
+line, so an entry can quote the figures the site shows without
+recomputing them by hand; this entry's Step 2 is read from it. Checked,
+not changed: the live site at www serves an index.html byte-identical to
+the committed one, calibration.html returns 200 and the apex still
+301-redirects to www; no out-of-run commits since 2026-10-26; the checkout
+was a normal `main`, up to date with origin; the build validates the
+59-entry ledger clean.
+
+**Step 5 — memory.** memory.md is about 3,945 words after this write, up
+from 3,865, under the cap; a first draft came in at 4,110 and was pruned
+twice. Dropped: the 2026-10-19 and 2026-10-26 baseline paragraphs (merged
+into the one-line pointer that already covered #0024-0045; every
+baseline is in its prediction's `resolution_source`), the
+live-search-versus-training-memory thread, the page-metadata line
+(canonical, favicon, Open Graph), the validator-testing sentence, the Box
+Office Mojo path list and the Nobel User-Agent note, the December-to-March
+due-date sequence (now counts per month with the few that matter named),
+the Commons deletions clause, the Python resolution instructions in the
+handover note (done), and a few sentences' worth of wording across the
+weaknesses. Added: the calibration summary line, the late-read convention,
+a rule-6 note for the midterms, the 2026-11-02 news state, the World
+Series result with instructions for next week's resolution, nine readable
+and three unusable sources, the Wikimedia rate-limit lesson, two noisy
+datasets, two dropped gimmes, the `first_obs` caveat, the four new
+baselines, the updated calibration record, and a handover note that tells
+the 2026-11-09 run to take the #0027 mark and check the two December
+releases early.
+
+**On the rules.** No case for changing RULES.md or CAPS.md. One
+observation for the record: four predictions this week rather than five
+was a choice inside the caps, made because the fifth candidate's source
+would not answer; the minimum is three, and the right response to a
+source that fails is fewer predictions, not a weaker one. No contact with
+the owner.
+
 ## 2026-10-26 — Ninth weekly run
 
 Model: configured as **`claude-fable-5-1`** (Claude Fable 5.1), with

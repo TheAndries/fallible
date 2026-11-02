@@ -27,10 +27,10 @@
 <h1>Calibration</h1>
 <p class="sub">Whether the confidence numbers mean anything. Reliability by bucket, and Brier score over time.</p>
 <div class="stats">
-  <div><b>0.597</b><span>Brier score</span></div>
-  <div><b>3</b><span>resolved</span></div>
-  <div><b>0.0%</b><span>hit rate</span></div>
-  <div><b>76.7%</b><span>mean confidence</span></div>
+  <div><b>0.456</b><span>Brier score</span></div>
+  <div><b>4</b><span>resolved</span></div>
+  <div><b>25.0%</b><span>hit rate</span></div>
+  <div><b>78.0%</b><span>mean confidence</span></div>
 </div>
 
 <h2>Reliability by confidence bucket</h2>
@@ -40,7 +40,7 @@ well-calibrated forecaster is right about 70% of the time when it says 70%.</p>
 <svg viewBox="0 0 360 360" role="img" aria-label="Reliability diagram: stated confidence against observed frequency">
   <rect class="plot" x="42" y="42" width="276" height="276"/>
   <line class="ideal" x1="42" y1="318" x2="318" y2="42"/>
-  <text class="tick" x="42.0" y="334" text-anchor="middle">0</text><text class="tick" x="34" y="322.0" text-anchor="end">0</text><text class="tick" x="111.0" y="334" text-anchor="middle">25</text><text class="tick" x="34" y="253.0" text-anchor="end">25</text><text class="tick" x="180.0" y="334" text-anchor="middle">50</text><text class="tick" x="34" y="184.0" text-anchor="end">50</text><text class="tick" x="249.0" y="334" text-anchor="middle">75</text><text class="tick" x="34" y="115.0" text-anchor="end">75</text><text class="tick" x="318.0" y="334" text-anchor="middle">100</text><text class="tick" x="34" y="46.0" text-anchor="end">100</text><polyline class="obs" points="235.2,318.0 290.4,318.0"/><circle cx="235.2" cy="318.0" r="5.0"><title>70-79%: said 70.0%, happened 0.0% (n=2)</title></circle><circle cx="290.4" cy="318.0" r="4.0"><title>90-99%: said 90.0%, happened 0.0% (n=1)</title></circle>
+  <text class="tick" x="42.0" y="334" text-anchor="middle">0</text><text class="tick" x="34" y="322.0" text-anchor="end">0</text><text class="tick" x="111.0" y="334" text-anchor="middle">25</text><text class="tick" x="34" y="253.0" text-anchor="end">25</text><text class="tick" x="180.0" y="334" text-anchor="middle">50</text><text class="tick" x="34" y="184.0" text-anchor="end">50</text><text class="tick" x="249.0" y="334" text-anchor="middle">75</text><text class="tick" x="34" y="115.0" text-anchor="end">75</text><text class="tick" x="318.0" y="334" text-anchor="middle">100</text><text class="tick" x="34" y="46.0" text-anchor="end">100</text><polyline class="obs" points="235.2,318.0 268.3,42.0 290.4,318.0"/><circle cx="235.2" cy="318.0" r="5.0"><title>70-79%: said 70.0%, happened 0.0% (n=2)</title></circle><circle cx="268.3" cy="42.0" r="4.0"><title>80-89%: said 82.0%, happened 100.0% (n=1)</title></circle><circle cx="290.4" cy="318.0" r="4.0"><title>90-99%: said 90.0%, happened 0.0% (n=1)</title></circle>
   <text class="axis" x="180" y="354" text-anchor="middle">stated confidence (%)</text>
   <text class="axis" transform="rotate(-90 12 180)" x="12" y="180" text-anchor="middle">observed frequency (%)</text>
 </svg>
@@ -53,7 +53,7 @@ underconfidence; below it is overconfidence. Dot size is the number of resolved 
 <tr class="dimrow"><td>50&ndash;59%</td><td>0</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
 <tr class="dimrow"><td>60&ndash;69%</td><td>0</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
 <tr class=""><td>70&ndash;79%</td><td>2</td><td>70.0%</td><td>0.0%</td><td>-70.0 pts</td></tr>
-<tr class="dimrow"><td>80&ndash;89%</td><td>0</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
+<tr class=""><td>80&ndash;89%</td><td>1</td><td>82.0%</td><td>100.0%</td><td>+18.0 pts</td></tr>
 <tr class=""><td>90&ndash;99%</td><td>1</td><td>90.0%</td><td>0.0%</td><td>-90.0 pts</td></tr>
 </tbody>
 </table>
@@ -66,7 +66,7 @@ confidently wrong every time.</p>
 <svg viewBox="0 0 720 240" role="img" aria-label="Running Brier score over time">
   <line class="grid" x1="40" y1="200" x2="680" y2="200"/><text class="tick" x="32" y="204.0" text-anchor="end">0.00</text><line class="grid" x1="40" y1="120" x2="680" y2="120"/><text class="tick" x="32" y="124.0" text-anchor="end">0.25</text><line class="grid" x1="40" y1="40" x2="680" y2="40"/><text class="tick" x="32" y="44.0" text-anchor="end">0.50</text>
   <line class="ideal flat" x1="40" y1="120" x2="680" y2="120"/>
-  <polyline class="obs" points="40.0,43.2 360.0,43.2 680.0,40.0"/>
+  <polyline class="obs" points="40.0,43.2 253.3,43.2 466.7,40.0 680.0,54.2"/>
   <text class="axis" x="360" y="234" text-anchor="middle">resolutions, oldest to newest</text>
 </svg>
 <figcaption>Running mean Brier score after each resolution. Lower is better; 0 is perfect. The flat
@@ -75,13 +75,14 @@ line at 0.25 is what always saying 50% would score.</figcaption>
 <table class="calib">
 <thead><tr><th>resolved</th><th>#</th><th>said</th><th>outcome</th><th>brier</th><th>running mean</th></tr></thead>
 <tbody>
+<tr><td>2026-11-02</td><td><a href="index.html#p0002">#0002</a></td><td>82%</td><td>happened</td><td>0.032</td><td>0.456</td></tr>
 <tr><td>2026-10-19</td><td><a href="index.html#p0009">#0009</a></td><td>90%</td><td>did not happen</td><td>0.810</td><td>0.597</td></tr>
 <tr><td>2026-10-19</td><td><a href="index.html#p0021">#0021</a></td><td>70%</td><td>did not happen</td><td>0.490</td><td>0.490</td></tr>
 <tr><td>2026-10-19</td><td><a href="index.html#p0039">#0039</a></td><td>70%</td><td>did not happen</td><td>0.490</td><td>0.490</td></tr>
 </tbody></table>
 
 <h2>How to read this honestly</h2>
-<p>A small number of resolutions tells you almost nothing. With 3 resolved
+<p>A small number of resolutions tells you almost nothing. With 4 resolved
 predictions, any calibration figure on this page is noise
 wearing a decimal point. It starts to mean something in the dozens, and the sample grows by only
 three to seven predictions a week.</p>

@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "site": "fallible.tech",
-  "updated": "2026-10-26",
+  "updated": "2026-11-02",
   "notes": "Single source of truth for predictions. The site renders from this file. Predictions are append-only: once published, a prediction's statement, confidence, resolution_date and resolution_source are never edited. Only status, outcome, resolved_on and resolution_note may be filled in later.",
   "predictions": [
     {
@@ -25,10 +25,10 @@
       "resolution_date": "2026-11-01",
       "resolution_source": "python.org/downloads release listing, cross-checked against the release schedule PEP for Python 3.15",
       "tags": ["software"],
-      "status": "open",
-      "outcome": null,
-      "resolved_on": null,
-      "resolution_note": null
+      "status": "resolved",
+      "outcome": true,
+      "resolved_on": "2026-11-02",
+      "resolution_note": "python.org's downloads release listing (python.org/downloads) shows 'Python 3.15.0' with release date Oct. 9, 2026, and the release page python.org/downloads/release/python-3150/ gives the same date; the listing also shows 3.15.1 (Oct. 21, 2026) and 3.15.2 (Oct. 25, 2026). PEP 790's actual schedule records '3.15.0 final: Friday, 2026-10-09', after three release candidates (2026-08-04, 2026-09-01, 2026-10-02). A final release on 2026-10-09 is on or before 2026-10-31. Checked on 2026-11-02, the day after the resolution date."
     },
     {
       "id": "0003",
@@ -714,6 +714,58 @@
       "resolution_date": "2027-03-16",
       "resolution_source": "Winner: the 'Best Picture' field of the English Wikipedia article '99th Academy Awards', en.wikipedia.org/wiki/99th_Academy_Awards, cross-checked against the Academy's own site, oscars.org. Gross: the Domestic figure on the winning film's Box Office Mojo title page, boxofficemojo.com (on 2026-10-26 Box Office Mojo's 2026 domestic chart, boxofficemojo.com/year/2026/, showed The Odyssey at $625,440,335 and Project Hail Mary at $344,050,007; Kalshi and Polymarket priced The Odyssey at about 52% for Best Picture in August 2026)",
       "tags": ["film"],
+      "status": "open",
+      "outcome": null,
+      "resolved_on": null,
+      "resolution_note": null
+    },
+    {
+      "id": "0056",
+      "created": "2026-11-02",
+      "statement": "The RCSB Protein Data Bank will hold at least 266,500 current entries with an initial release date on or before 2027-02-28: the total_count returned by the RCSB Search API for a range query on rcsb_accession_info.initial_release_date from 1900-01-01 up to but not including 2027-03-01, return_type entry, as returned on 2027-03-01 (or on the later date on which it is first checked), will be 266,500 or more.",
+      "confidence": 85,
+      "resolution_date": "2027-03-01",
+      "resolution_source": "RCSB PDB Search API, search.rcsb.org/rcsbsearch/v2/query, with the JSON query {\"query\":{\"type\":\"terminal\",\"service\":\"text\",\"parameters\":{\"attribute\":\"rcsb_accession_info.initial_release_date\",\"operator\":\"range\",\"value\":{\"from\":\"1900-01-01\",\"to\":\"2027-03-01\",\"include_lower\":true,\"include_upper\":false}}},\"return_type\":\"entry\",\"request_options\":{\"paginate\":{\"start\":0,\"rows\":1}}} (the total_count field resolves), cross-checked against the number of IDs in the current-holdings list at data.rcsb.org/rest/v1/holdings/current/entry_ids. On 2026-11-02 both gave 261,991. Entries by year of initial release, from the same API: 14,498 in 2023, 15,454 in 2024, 17,600 in 2025 and 14,769 in 2026 through 2026-11-01; by month, 1,494 in November 2025, 1,533 in December 2025, 1,433 in January 2026, 1,368 in February 2026, 1,608 in September 2026 and 1,275 in October 2026. The threshold needs 4,509 more entries in the 17 weeks to 2027-02-28, about 1,130 a month.",
+      "tags": ["science"],
+      "status": "open",
+      "outcome": null,
+      "resolved_on": null,
+      "resolution_note": null
+    },
+    {
+      "id": "0057",
+      "created": "2026-11-02",
+      "statement": "NASA JPL's Small-Body Database Query API will return a count of at least 43,500 near-Earth asteroids on 2027-03-01, for the query sb-group=neo and sb-kind=a (the count field of ssd-api.jpl.nasa.gov/sbdb_query.api?fields=spkid&sb-group=neo&sb-kind=a&limit=1), as returned on that date. If it is first checked after 2027-03-01, the same API's count of near-Earth asteroids whose first observation date (first_obs) is on or before 2027-02-28 resolves instead.",
+      "confidence": 80,
+      "resolution_date": "2027-03-01",
+      "resolution_source": "NASA JPL Small-Body Database Query API, ssd-api.jpl.nasa.gov/sbdb_query.api?fields=spkid&sb-group=neo&sb-kind=a&limit=1 (the count field; 42,828 on 2026-11-02; near-Earth asteroids by year of first observation from the same API with sb-cdata first_obs range filters: 2,999 in 2022, 2,781 in 2023, 3,005 in 2024, 3,157 in 2025, 2,188 in 2026 through 2026-11-02; 2,831 first observed in the twelve months to 2026-11-02 and 1,152 between 2025-11-01 and 2026-02-28). The threshold needs 672 more in four months. Cross-check: CNEOS discovery statistics, cneos.jpl.nasa.gov/stats/totals.html (drawn by JavaScript; the API count is the one that resolves).",
+      "tags": ["astronomy"],
+      "status": "open",
+      "outcome": null,
+      "resolved_on": null,
+      "resolution_note": null
+    },
+    {
+      "id": "0058",
+      "created": "2026-11-02",
+      "statement": "Super Bowl LXI, scheduled for 2027-02-14 at SoFi Stadium, will be won by a team from the National Football Conference (NFC); that is, the champion shown in the English Wikipedia article 'Super Bowl LXI' on 2027-02-28 will be an NFC team. If no champion is shown there by 2027-02-28, this resolves as not having happened.",
+      "confidence": 53,
+      "resolution_date": "2027-02-28",
+      "resolution_source": "English Wikipedia article 'Super Bowl LXI', en.wikipedia.org/wiki/Super_Bowl_LXI (infobox and lead), cross-checked against NFL.com's Super Bowl page, nfl.com/super-bowl. Baseline on 2026-11-02: the prediction-market prices that defirate.com/odds/super-bowl aggregates from Kalshi and Polymarket summed to 57.6% for the 16 NFC teams and 51.7% for the 16 AFC teams, which is 52.7% NFC after normalising for the overround; the 49ers (15%) and Bills (13%) led, then the Chiefs (9.0%), Seahawks (8.5%), Bears (7.7%) and Jaguars (7.4%). Standings after week 8 had the Vikings 6-0 and 49ers 6-1 in the NFC, the Bills 6-1 and Broncos 6-2 in the AFC. The reigning champion is the NFC's Seattle Seahawks.",
+      "tags": ["sports"],
+      "status": "open",
+      "outcome": null,
+      "resolved_on": null,
+      "resolution_note": null
+    },
+    {
+      "id": "0059",
+      "created": "2026-11-02",
+      "statement": "The men's singles champion at the 2027 Australian Open (final scheduled for 2027-01-31) will be a player seeded 1, 2, 3 or 4 in that event, per the seeds list and the champion shown in the English Wikipedia article '2027 Australian Open – Men's singles' on 2027-02-02. If no champion is shown there by 2027-02-02, this resolves as not having happened.",
+      "confidence": 70,
+      "resolution_date": "2027-02-02",
+      "resolution_source": "English Wikipedia article '2027 Australian Open – Men's singles', en.wikipedia.org/wiki/2027_Australian_Open_–_Men's_singles (not yet created on 2026-11-02; the 2026 article at the same title pattern names the champion, Carlos Alcaraz, seeded 1, and lists the seeds in the Seeds section), cross-checked against the Australian Open's official site, ausopen.com, and the ATP Tour's results page. Baseline: the champion was a top-four seed in 16 of the 19 editions from 2008 to 2026 (the exceptions were Wawrinka seeded 8 in 2014, Federer seeded 17 in 2017 and Nadal seeded 6 in 2022); in 2026 the top four seeds were Alcaraz, Sinner, Zverev and Djokovic and all four reached the semifinals. On 2026-11-02 Sinner had not played since winning Wimbledon in July and had ended his 2026 season with a knee injury.",
+      "tags": ["sports"],
       "status": "open",
       "outcome": null,
       "resolved_on": null,
