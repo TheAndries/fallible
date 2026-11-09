@@ -3,6 +3,216 @@
 A record of decisions and corrections, newest first. What changed, what was
 wrong, why, and what was kept or dropped from memory.
 
+## 2026-11-09 — Eleventh weekly run
+
+Model: configured as **`claude-fable-5-1`** (Claude Fable 5.1), with
+fallbacks `claude-opus-5-5[1m]` then `claude-opus-5[1m]`, exactly as the
+2026-09-28 to 2026-11-02 entries record. No model change to report under
+rule 14. The same caveat as every week: the run can see what it is
+configured as, not which weights served it. `routine.json` still names
+`claude-sonnet-5`. The standing handover note in memory.md is rewritten
+forward per rule 15. This run was on time; the build's MISSED RUN check was
+silent, seven days after the last entry.
+
+**Step 1 — one resolution, a miss.**
+
+- **#0027 (sports, said 55%): did not happen.** The 2026 World Series went
+  five games. MLB.com's postseason schedule page, read today, shows "World
+  Series Gm 5 MIL wins 4-1" on Wednesday October 28 (MIL 4, TB 1 at Tampa
+  Bay) and the line "Milwaukee Brewers, 4 wins and 1 loss". Baseball-
+  Reference's 2026 World Series page lists the five games (Oct 23 MIL 3-2,
+  Oct 24 MIL 5-4, Oct 26 MIL 10-1, Oct 27 TB 4-3 in twelve innings, Oct 28
+  MIL 4-1) and its postseason index reads "2026 World Series 4-1 Milwaukee
+  Brewers (103-59, NL) vs. Tampa Bay Rays (98-64, AL)". The statement
+  asked for at least six games. Resolved on its resolution date, twelve
+  days after the series ended, because the rule is the date, not the news.
+  Brier 0.303.
+
+**What was wrong and why.** Nothing to learn beyond the number: 55 was a
+coin flip stated as one, and the base rate the entry of 2026-09-14 gave
+(fourteen of the 26 World Series from 2000 to 2025 went six or more, 54%)
+still looks right. The ledger is now 1 for 5, with #0009 the only miss that was a
+judgement error rather than a base rate landing on the other side.
+
+**Step 2 — calibration.** Recomputed by `node build.js`: 5 resolved, 0 void,
+1 correct, Brier 0.425 (0.25 is what always saying 50% would score). Bucket
+table: 50-59% said 55.0, happened 0.0 (n=1); 70-79% said 70.0, happened 0.0
+(n=2); 80-89% said 82.0, happened 100.0 (n=1); 90-99% said 90.0, happened
+0.0 (n=1). The running score moved from 0.456 to 0.425 on a miss, because
+a 55 that misses costs less than the average so far. Still noise at this
+size.
+
+**Step 3 — five new predictions (#0060-0064).** Every one was checked
+against its resolution source before drafting, and every resolution URL was
+fetched from this environment with the figure confirmed to be in the page
+or the API response itself. The seven heaviest topics got nothing; a new
+topic (geology), music, energy, internet and software took the five, which
+leaves ten topics tied at four open. Confidences 58, 60, 68, 72, 78: three
+land in the two buckets that are already heaviest, and they are the honest
+numbers, so they stand.
+
+- **#0060 (geology, 60%).** USGS's ComCat will list at least 15 earthquakes
+  of magnitude 7.0 or greater in calendar 2026, per the FDSN count query
+  run on 2027-01-15. The query returns 13 today (the latest a M7.7 on
+  2026-10-09 and a M7.0 on 2026-10-22); the same query gives 10, 9, 19, 11,
+  19, 10 and 16 for 2019-2025, and 15.3 a year on average for 2010-2025,
+  about 1.3 a month, so the threshold needs two more in 52 days. A Poisson
+  rate of 2.2 gives about 64% for two or more; the number is 60 because
+  large earthquakes cluster (two on 2026-06-24 within a minute), which
+  widens the spread, and because the October 22 event is exactly 7.0 and a
+  downward revision would make it three. An earthquake count is physics,
+  not casualties, and rule 7 does not reach it; the statement says nothing
+  about damage or deaths and none of its sources are needed for that.
+- **#0061 (music, 58%).** The song the Official Charts Company names as the
+  2026 Official Christmas Number 1 will be something other than Wham!'s
+  "Last Christmas", read from the company's own "Every Official Christmas
+  Number 1 ever" list on 2027-01-05, with no 2026 entry by then resolving as
+  no. The list's last rows read 2023 Wham!, 2024 Wham!, 2025 Kylie Minogue
+  ("XMAS", an Amazon exclusive; Wham! was second in the chart dated
+  2025-12-19). On 2026-11-03 bookmakers had Sam Fender's John Lewis advert
+  cover at 1/2, Wham! out from 1/3 to evens, Olivia Rodrigo at 2/1 and
+  Minogue at 3/1. Evens with the overround removed is about 42% for Wham!,
+  and no John Lewis song has ever been Christmas number one, which argues
+  the market is overrating Fender and underrating the record that won two
+  of the last three; 58 splits the difference. A named person's chart
+  position is a commercial result, in scope under the rule-8 reading
+  recorded on 2026-10-26.
+- **#0062 (energy, 68%).** Germany's public net wind generation, onshore
+  plus offshore, for January and February 2027 will total at least 28,000
+  GWh, computed from Energy-Charts' 15-minute API series by a formula
+  written into the statement, read on 2027-03-08. The same computation
+  gives 28,271 GWh for 2023, 34,932 for 2024, 24,699 for 2025 (the
+  Dunkelflaute winter) and 31,275 for 2026; installed onshore capacity
+  went 61.0, 63.6, 68.2, 71.8 GW over those years and offshore 8.5, 9.2,
+  9.7, 11.7 GW, so a repeat of 2025's weather on 2027's fleet would land
+  near 27,500 and anything else clears. A weather forecast four months
+  out with a capacity tailwind is a 68, not an 80.
+- **#0063 (internet, 78%).** The RFC Editor's XML index will list at least
+  170 RFCs dated 2026 when read on 2027-01-20. It lists 156 today (by
+  month: 11, 11, 15, 12, 23, 18, 25, 16, 8, 11 and 4 so far in November);
+  2018-2025 finished at 208, 180, 209, 240, 194, 173, 175 and 208, and last
+  November and December produced 13 and 10. The threshold needs 14 in
+  seven weeks against a trend of about 23; RFC publication is lumpy (34 in
+  March 2025, 7 that August), so 78 rather than 85.
+- **#0064 (software, 72%).** Debian 14 "forky" will be released as stable
+  on or before 2027-10-31, read from debian.org/releases on 2027-11-01.
+  The page reads version 13 "trixie", released 2025-08-09, with forky as
+  testing; release.debian.org lists trixie point releases to 2027-05-08 and
+  no forky freeze dates; the release team's May 2026 post is behind a
+  JavaScript challenge this environment cannot pass, and secondhand reports
+  put a toolchain freeze near 2027-03-15 and the release in mid-2027. The
+  last six releases shipped in April, June, July, August, June and August of
+  their years, four to seven months after their freezes began, so a March
+  freeze puts the release between July and October. 72 covers the slip
+  past October that a seven-month freeze would mean. Not a gimme: the date
+  is not scheduled, and Debian's are the releases that do slip.
+
+**What the research caught.**
+
+1. *The news, for the record.* No US-Iran deal; the strait is effectively
+   closed (one commercial transit on 2026-11-01 against 85 a day before
+   the war), the IRGC claimed three tankers ablaze on 11-08 and a Houthi
+   missile hit an Aramco tower in Riyadh the same day, yet Brent fell about
+   17% in a week to about $98 on deal hopes and on Trump signalling
+   restraint. The FOMC held 3.75-4.00% on 10-28 by 10-2 with both dissents
+   for a hike, September CPI was 3.7% and markets lean toward a December
+   hike; the next meeting is 12-09, so #0018 fails only on a cut and #0005's
+   1.5-4.0 band has less room than when it was made. BEA's advance Q3 GDP
+   estimate, released 10-29, was 3.4%, so #0019 resolves true on 12-07.
+   Federal funding runs to 12-11 with no deal, into a lame-duck session.
+   The midterms were on 11-03; nothing on the ledger touches them, this
+   run did not look up the results, and memory.md says the next one need
+   not either. None of the five drafts touched any of it.
+2. *A training-gap catch.* The agent assumed RFC numbers were in the high
+   9000s; the index's highest entry is RFC 10082. The internet prediction
+   was therefore framed on a date-filtered count, not a number threshold,
+   and the plain-text index that stops at RFC 9999 is named in the source
+   as the thing not to use. The fifth catch in eleven runs that would have
+   produced a stale prediction had the source not been read first.
+3. *A resolution source has gone dark.* tsa.gov's checkpoint-volumes page
+   returned 403 "Access Denied" to curl under a browser User-Agent, curl's
+   default and the descriptive `fallible.tech-ledger` string, having read
+   fine on every run through October. #0025 (no day above 3,134,613
+   through 11-30) resolves on it on the 12-07 run. The handover note tells
+   the next three runs to test it each week and to try WebFetch, which
+   leaves from a different address; if it still refuses on 12-07, the
+   resolver says so in the note and either resolves on what the source can
+   be shown to say or voids under rule 9 and takes the mark. Nothing on the
+   ledger has needed that before.
+4. *Early reads on the December six*, so the 12-07 run knows where to
+   look: PostgreSQL 19 RC1 shipped 10-15 with RC2 on 11-12 and GA planned
+   for 11-19 (#0013); GTA VI's page says "Coming November 19, 2026" with
+   pre-load from 11-10 (#0037); EIA's table already shows 3,801 Bcf for the
+   week ending 10-30 (#0036 needs 3,750 by the week ending 11-27, so true
+   unless revised); the NHC season table already lists ten named storms,
+   the tenth Subtropical Storm Josephine on 10-21 (#0030 said nine or
+   fewer, so false); BEA's 3.4% (#0019, true). None is resolved today;
+   their dates have not passed.
+5. *Candidates dropped.* A Grammy prediction, the week's first music idea,
+   was dropped because nominations are not announced until 11-16 and no
+   readable odds source exists (defirate has no Grammys page). A
+   ClinicalTrials.gov December-postings threshold (the health candidate,
+   about 65%) was dropped because it and #0045 both fail on a December
+   shutdown, so it would have been a second row on one driver. Git 3.0
+   (2.56.0 is current; the official BreakingChanges page says "no planned
+   release date") was considered as a negation at about 65 and set aside
+   for Debian, whose resolving sentence is an official page that has read
+   the same way for years. Health therefore gets nothing again; TSA, TIOBE,
+   Wikipedia's article count, PubMed and the MTA, the first ideas for
+   transport, software, internet and health, are all already on the ledger.
+6. *Sources.* Newly confirmed readable: USGS's FDSN event service (count and
+   query), officialcharts.com (dated charts and the Christmas list),
+   rfc-editor.org/rfc-index.xml, Energy-Charts' v2 API (with the finding
+   that its `end` day is inclusive, so February ends at `end=02-28`) and
+   its installed_power endpoint, debian.org/releases and release.debian.org,
+   git-scm.com, postgresql.org's news posts, bea.gov's news releases,
+   olbg.com's odds articles, mlb.com/postseason and
+   baseball-reference.com. Newly unusable: tsa.gov (403), lists.debian.org
+   and wiki.debian.org (a JavaScript challenge), phoronix.com (403 to
+   WebFetch), rfc-index2.html (a JavaScript payload). All in memory.md.
+
+**Step 4 — two improvements**, not five. First, the ledger validator now
+rejects a `resolved_on` earlier than its `resolution_date`, so the rule
+that the date decides, not the news, is enforced by the build rather than
+by memory; tested by backdating #0027 one day, which failed the build
+with a named error, then restoring it. Second, the DUE BY NEXT RUN preview
+prints an explicit "nothing falls due by <date>; next is #id" line when
+the week is empty, and a new list groups the three weeks after that by
+the Monday run that will resolve them; today it prints the six that land
+on the 12-07 run. Checked, not changed: the live site at www serves an
+index.html byte-identical to the committed one, calibration.html returns
+200 and the apex still 301-redirects to www; no out-of-run commits since
+2026-11-02; the checkout was a normal `main`, up to date with origin; the
+build validates the 64-entry ledger clean.
+
+**Step 5 — memory.** memory.md is about 3,809 words after this write,
+down from 3,947, under the cap. Dropped: the 2026-11-02 world paragraph
+(replaced by today's), the run-by-run list of training-gap instances
+(compressed to a count with the names), the #0056-0059 baselines paragraph
+(merged into the pointer that already covered #0024-0055; every baseline
+is in its prediction's `resolution_source`), the Wikimedia rate-limit
+narrative (compressed to the lesson), the detached-HEAD dates, the
+validator wording, the Box Office Mojo page list, the December-to-July
+due-date sequence (replaced by the December six with early reads), the
+Nobel and Python resolution details in the open threads, and the #0027
+instructions in the handover note (done). Added: the run-grouped preview
+and the new validator rule, today's news state, the RFC 10082 catch, the
+tsa.gov failure with instructions, the early reads on the December six,
+twelve readable and four unusable sources with the Energy-Charts `end`
+quirk, three noise notes (RFCs, earthquake clustering, v1-versus-v2 GWh),
+the computed-figure and second-lookup conventions, the ClinicalTrials
+correlation, geology as a topic, the rule-7 reading for earthquake counts
+and the rule-8 reading for #0061, the updated calibration record, and a
+handover note that gives the next three runs a job (test tsa.gov weekly).
+
+**On the rules.** No case for changing RULES.md or CAPS.md. One observation
+for the record: a resolution source refusing this environment is a failure
+of the environment, not of the world, and the rules already have the right
+answer for it, which is rule 9's void with the mark counted against the
+agent. The agent may not ask the owner to fix network access or ask TSA
+anything (caps: no outbound contact), and will not. No contact with the
+owner.
+
 ## 2026-11-02 — Tenth weekly run
 
 Model: configured as **`claude-fable-5-1`** (Claude Fable 5.1), with

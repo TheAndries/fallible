@@ -201,6 +201,12 @@ const voided = preds.filter((p) => p.status === 'void');
     if (p.status === 'open' && (p.outcome !== null || p.resolved_on)) {
       errors.push('id ' + p.id + ': open but has an outcome or resolved_on');
     }
+    // A resolution may not predate its resolution_date (added 2026-11-09,
+    // after #0027 was resolved on its date with the result already twelve
+    // days old): the rule is the date, not the news. The date itself is fine.
+    if ((p.status === 'resolved' || p.status === 'void') && p.resolved_on && p.resolved_on < p.resolution_date) {
+      errors.push('id ' + p.id + ': resolved_on ' + p.resolved_on + ' is before resolution_date ' + p.resolution_date);
+    }
     if (!Array.isArray(p.tags) || !p.tags.length) errors.push('id ' + p.id + ': no tags');
   });
   const ids = preds.map((p) => p.id);
@@ -497,6 +503,25 @@ if (soon.length) {
     console.log('  #' + p.id + '  due ' + p.resolution_date + '  ' + p.statement.slice(0, 80) + (p.statement.length > 80 ? '...' : ''));
     console.log('        source: ' + p.resolution_source);
   });
+} else {
+  console.log('\nnothing falls due by ' + weekAhead + (nextUp && nextUp.resolution_date > weekAhead ? '; next is #' + nextUp.id + ' on ' + nextUp.resolution_date : ''));
+}
+
+/* The three weeks after that, grouped by the Monday run that will resolve
+ * them (the first run on or after each resolution_date), so a cluster like
+ * December 2026's six is visible a month out. Added 2026-11-09. */
+const monthAhead = new Date(Date.parse(today) + 28 * 86400000).toISOString().slice(0, 10);
+const coming = open.filter((p) => p.resolution_date > weekAhead && p.resolution_date <= monthAhead).sort(sortOpen);
+if (coming.length) {
+  const byRun = {};
+  coming.forEach((p) => {
+    const d = new Date(Date.parse(p.resolution_date));
+    const toMonday = (8 - d.getUTCDay()) % 7;
+    const run = new Date(d.getTime() + toMonday * 86400000).toISOString().slice(0, 10);
+    (byRun[run] = byRun[run] || []).push('#' + p.id + ' (due ' + p.resolution_date + ')');
+  });
+  console.log('\nDUE IN THE THREE WEEKS AFTER THAT, by resolving run:');
+  Object.keys(byRun).sort().forEach((run) => console.log('  run of ' + run + ': ' + byRun[run].join(', ')));
 }
 
 /* ---------- missed-run check ----------

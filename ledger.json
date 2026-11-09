@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "site": "fallible.tech",
-  "updated": "2026-11-02",
+  "updated": "2026-11-09",
   "notes": "Single source of truth for predictions. The site renders from this file. Predictions are append-only: once published, a prediction's statement, confidence, resolution_date and resolution_source are never edited. Only status, outcome, resolved_on and resolution_note may be filled in later.",
   "predictions": [
     {
@@ -350,10 +350,10 @@
       "resolution_date": "2026-11-09",
       "resolution_source": "MLB.com postseason results, mlb.com/postseason, cross-checked against Baseball-Reference's 2026 World Series page, baseball-reference.com/postseason/ (Game 1 is scheduled for 2026-10-23 and a Game 7 for 2026-10-31)",
       "tags": ["sports"],
-      "status": "open",
-      "outcome": null,
-      "resolved_on": null,
-      "resolution_note": null
+      "status": "resolved",
+      "outcome": false,
+      "resolved_on": "2026-11-09",
+      "resolution_note": "Did not happen. The series ended 4-1 in five games. MLB.com's postseason schedule page, read on 2026-11-09, shows 'World Series Gm 5 MIL wins 4-1' on Wednesday Oct 28 (MIL 4, TB 1 at Tampa Bay) and 'Milwaukee Brewers, 4 wins and 1 loss'. Baseball-Reference's 2026 World Series page, read the same day, lists five games: Oct 23 MIL 3-2, Oct 24 MIL 5-4, Oct 26 MIL 10-1, Oct 27 TB 4-3 in 12 innings, Oct 28 MIL 4-1; its postseason index reads '2026 World Series 4-1 Milwaukee Brewers (103-59, NL) vs. Tampa Bay Rays (98-64, AL)'. Resolved on the resolution date."
     },
     {
       "id": "0028",
@@ -766,6 +766,71 @@
       "resolution_date": "2027-02-02",
       "resolution_source": "English Wikipedia article '2027 Australian Open – Men's singles', en.wikipedia.org/wiki/2027_Australian_Open_–_Men's_singles (not yet created on 2026-11-02; the 2026 article at the same title pattern names the champion, Carlos Alcaraz, seeded 1, and lists the seeds in the Seeds section), cross-checked against the Australian Open's official site, ausopen.com, and the ATP Tour's results page. Baseline: the champion was a top-four seed in 16 of the 19 editions from 2008 to 2026 (the exceptions were Wawrinka seeded 8 in 2014, Federer seeded 17 in 2017 and Nadal seeded 6 in 2022); in 2026 the top four seeds were Alcaraz, Sinner, Zverev and Djokovic and all four reached the semifinals. On 2026-11-02 Sinner had not played since winning Wimbledon in July and had ended his 2026 season with a knee injury.",
       "tags": ["sports"],
+      "status": "open",
+      "outcome": null,
+      "resolved_on": null,
+      "resolution_note": null
+    },
+    {
+      "id": "0060",
+      "created": "2026-11-09",
+      "statement": "The USGS Earthquake Catalog (ComCat) will list at least 15 earthquakes of magnitude 7.0 or greater with origin times in calendar year 2026 (2026-01-01T00:00:00 to 2026-12-31T23:59:59 UTC), as returned by the FDSN event count query run on 2027-01-15. Magnitudes as held in the catalog on that date count, revisions included.",
+      "confidence": 60,
+      "resolution_date": "2027-01-15",
+      "resolution_source": "USGS FDSN Event Web Service count query, earthquake.usgs.gov/fdsnws/event/1/count?format=text&starttime=2026-01-01T00:00:00&endtime=2026-12-31T23:59:59&minmagnitude=7, run on 2027-01-15; cross-checked against the matching query endpoint (earthquake.usgs.gov/fdsnws/event/1/query?format=text with the same parameters), which lists each event with its magnitude. Baseline: the count query returned 13 on 2026-11-09 (the most recent a M7.0 on 2026-10-22 and a M7.7 on 2026-10-09). The same query gave 10, 9, 19, 11, 19, 10 and 16 for 2019 to 2025, and an average of 15.3 a year for 2010-2025, about 1.3 a month, so the threshold needs two more in the 52 days left. The 2026-10-22 event's magnitude is exactly 7.0; a downward revision would drop it from the count.",
+      "tags": ["geology"],
+      "status": "open",
+      "outcome": null,
+      "resolved_on": null,
+      "resolution_note": null
+    },
+    {
+      "id": "0061",
+      "created": "2026-11-09",
+      "statement": "The song the Official Charts Company names as the Official Christmas Number 1 for 2026 (the number-one single on the Official Singles Chart for the chart week it designates as the Christmas chart, expected to be the chart dated 2026-12-25) will be a song other than 'Last Christmas' by Wham!. If no 2026 Christmas Number 1 has been named by 2027-01-05, this resolves as not having happened.",
+      "confidence": 58,
+      "resolution_date": "2027-01-05",
+      "resolution_source": "The Official Charts Company's list 'Every Official Christmas Number 1 ever', officialcharts.com/chart-news/every-official-christmas-number-1-ever-__3618/ (its 2026 row), as shown on 2027-01-05, cross-checked against the Official Singles Chart Top 100 for the Christmas chart week (expected at officialcharts.com/charts/singles-chart/20261225/7501/) and the company's chart-news announcement. Baseline: on 2026-11-09 the list's last three rows read 2023 Last Christmas Wham!, 2024 Last Christmas Wham!, 2025 XMAS Kylie Minogue; the 2025 Christmas chart (dated 2025-12-19) had Wham! at number 2. On 2026-11-03 bookmakers quoted Sam Fender's John Lewis advert cover at 1/2, Wham! at evens (out from 1/3), Olivia Rodrigo at 2/1 and Kylie Minogue at 3/1 (olbg.com).",
+      "tags": ["music"],
+      "status": "open",
+      "outcome": null,
+      "resolved_on": null,
+      "resolution_note": null
+    },
+    {
+      "id": "0062",
+      "created": "2026-11-09",
+      "statement": "Germany's public net electricity generation from wind, onshore plus offshore, for 2027-01-01 to 2027-02-28 inclusive will total at least 28,000 GWh, computed from the Energy-Charts API's 15-minute public_power series for country 'de' as the sum of the wind_onshore and wind_offshore values in megawatts times 0.25 divided by 1,000, with missing values counted as zero, as returned on 2027-03-08.",
+      "confidence": 68,
+      "resolution_date": "2027-03-08",
+      "resolution_source": "Energy-Charts (Fraunhofer ISE) API v2, api.energy-charts.info/v2/public_power?country=de&start=2027-01-01&end=2027-02-28 (unit MW, resolution PT15M, series ids wind_onshore and wind_offshore), read on 2027-03-08; cross-checked against the v1 endpoint api.energy-charts.info/public_power?country=de with the same dates (production types 'Wind onshore' and 'Wind offshore'). Baseline, same method, January plus February: 28,271 GWh in 2023, 34,932 in 2024, 24,699 in 2025 and 31,275 in 2026 (23,862 onshore, 7,413 offshore). Installed capacity per the API's installed_power endpoint: onshore 61.0 GW at the end of 2023, 63.6 in 2024, 68.2 in 2025 and 71.8 GW in 2026 so far; offshore 8.5, 9.2, 9.7 and 11.7 GW.",
+      "tags": ["energy"],
+      "status": "open",
+      "outcome": null,
+      "resolved_on": null,
+      "resolution_note": null
+    },
+    {
+      "id": "0063",
+      "created": "2026-11-09",
+      "statement": "The RFC Editor's RFC index will list at least 170 RFCs with a publication date in calendar year 2026, counted as the rfc-entry elements in rfc-index.xml whose date element gives the year 2026, as read on 2027-01-20.",
+      "confidence": 78,
+      "resolution_date": "2027-01-20",
+      "resolution_source": "RFC Editor XML index, rfc-editor.org/rfc-index.xml (about 14 MB; count the <rfc-entry> elements, not bcp-entry, std-entry or fyi-entry, with <year>2026</year> inside <date>), read on 2027-01-20. Baseline, same count on 2026-11-09: 156 RFCs dated 2026 (January 11, February 11, March 15, April 12, May 23, June 18, July 25, August 16, September 8, October 11, November 4 so far); the full years 2018 to 2025 were 208, 180, 209, 240, 194, 173, 175 and 208, and November and December 2025 had 13 and 10. The threshold needs 14 more in the seven weeks left. The highest number published was RFC 10082; the plain-text index rfc-index.txt stops at RFC 9999 and must not be used.",
+      "tags": ["internet"],
+      "status": "open",
+      "outcome": null,
+      "resolved_on": null,
+      "resolution_note": null
+    },
+    {
+      "id": "0064",
+      "created": "2026-11-09",
+      "statement": "Debian 14 'forky' will be released as Debian's stable distribution on or before 2027-10-31: on 2027-11-01, debian.org/releases/ will name version 14 as the current stable distribution with an initial release date on or before 2027-10-31.",
+      "confidence": 72,
+      "resolution_date": "2027-11-01",
+      "resolution_source": "Debian's releases page, debian.org/releases/ ('The current stable distribution of Debian is version N, codenamed ..., initially released as version N.0 on <date>'), read on 2027-11-01, cross-checked against the release announcement on debian.org/News/ and release.debian.org. Baseline: on 2026-11-09 the page read version 13 'trixie', initially released 2025-08-09, latest update 13.7 on 2026-09-12, with forky as testing; release.debian.org listed trixie point releases planned to 2027-05-08 and no forky freeze dates (the Debian mailing-list archive and wiki refuse this environment, so the release team's May 2026 post could not be read; secondhand reports put a toolchain freeze around 2027-03-15 and the release in mid-2027). The last six releases shipped in April 2015, June 2017, July 2019, August 2021, June 2023 and August 2025, four to seven months after their freezes began.",
+      "tags": ["software"],
       "status": "open",
       "outcome": null,
       "resolved_on": null,
